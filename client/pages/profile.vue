@@ -1,7 +1,5 @@
 <script lang='ts' setup>
 
-import Post from '~/components/feed/post.vue'
-
 definePageMeta({
   layout: 'user',
 })
@@ -10,9 +8,7 @@ definePageMeta({
 
 <template>
   <div class='flex gap-6'>
-    <Post/>
-    <Post/>
-
+    profile
   </div>
 </template>
 
