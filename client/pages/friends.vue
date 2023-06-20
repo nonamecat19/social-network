@@ -1,6 +1,6 @@
 <script lang='ts' setup>
 
-import Post from '~/components/feed/post.vue'
+import Card from '~/components/friends/card.vue'
 
 definePageMeta({
   layout: 'user',
@@ -9,10 +9,11 @@ definePageMeta({
 </script>
 
 <template>
-  <div class='flex gap-6'>
-    <Post/>
-    <Post/>
-
+  <div class='flex gap-6 flex-wrap'>
+    <Card/>
+    <Card/>
+    <Card/>
+    <Card/>
   </div>
 </template>
 

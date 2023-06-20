@@ -1,7 +1,6 @@
-<script lang="ts">
-export default {
-  name: 'Post'
-}
+<script lang="ts" setup>
+
+
 </script>
 
 <template>

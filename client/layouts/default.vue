@@ -1,10 +1,13 @@
 <template>
-  <main class="w-screen">
-    default
+  <section class="w-screen">
     <aside class="h-screen w-30">
-      <slot/>
+
     </aside>
-  </main>
+    <main class='h-screen'>
+      <slot/>
+    </main>
+
+  </section>
 </template>
 
 <script setup>
