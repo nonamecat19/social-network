@@ -24,7 +24,7 @@
       </div>
 
     </aside>
-    <main class='h-screen p-10'>
+    <main class='h-screen'>
       <slot />
     </main>
 

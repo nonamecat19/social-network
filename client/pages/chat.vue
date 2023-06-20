@@ -8,7 +8,8 @@ definePageMeta({
 
 <template>
   <div class='flex gap-6'>
-    chat
+    <ChatList/>
+    asdfsadf
   </div>
 </template>
 

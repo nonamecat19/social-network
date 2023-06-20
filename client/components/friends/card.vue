@@ -25,7 +25,7 @@ import DangerModal from '~/components/modals/danger-modal.vue'
           Name Middle name Surname
         </h2>
         <p class='text-zinc-600'>
-          Together for 2month
+          Together for 2 month
         </p>
       </div>
 
