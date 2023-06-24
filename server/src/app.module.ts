@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { DatabaseModule } from './database/database.module'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-
 
 import { AccountModule } from './modules/account/account.module'
 import { FriendshipModule } from './modules/friendship/friendship.module'
@@ -16,23 +14,25 @@ import { PostCommentModule } from './modules/post-comment/post-comment.module'
 
 import { AuthModule } from './auth/auth.module';
 
+import {Account, Friendship, FriendshipRequest, LikeComment, LikePost, Post, PostComment} from '../db/entities';
+
 @Module({
-  imports: [DatabaseModule,
+  imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    // TypeOrmModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: (configService: ConfigService) => ({
-    //     type: 'postgres',
-    //     host: configService.get('DB_HOST'),
-    //     port: configService.get('DB_PORT'),
-    //     username: configService.get('DB_USERNAME'),
-    //     password: configService.get('DB_PASSWORD'),
-    //     database: configService.get('DB_NAME'),
-    //     synchronize: true,
-    //     entities: [__dirname + '/**/*.entity{.js, .ts}']
-    //   }),
-    //   inject: [ConfigService],
-    // }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
+        synchronize: true,
+        entities: [Account, Friendship, FriendshipRequest, LikeComment, LikePost, Post, PostComment]
+      }),
+    }),
     AccountModule,
     FriendshipModule,
     FriendshipRequestModule,
