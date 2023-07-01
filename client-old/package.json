@@ -1,0 +1,27 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@hebilicious/authjs-nuxt": "^0.1.0-beta.6",
+    "@nuxt/devtools": "^0.6.1",
+    "@nuxt/image": "^1.0.0-rc.1",
+    "@nuxthq/ui": "^2.4.0",
+    "@nuxtjs/apollo": "^5.0.0-alpha.6",
+    "@nuxtjs/google-fonts": "^3.0.1",
+    "@types/node": "^18",
+    "nuxt": "^3.5.2",
+    "nuxt-headlessui": "^1.1.4",
+    "nuxt-icon": "^0.4.1"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.14",
+    "next-auth": "^4.21.1"
+  }
+}

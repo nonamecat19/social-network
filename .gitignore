@@ -1,26 +1,26 @@
 # Nuxt dev/build outputs
-client/.output
-client/.nuxt
-client/.nitro
-client/.cache
-client/dist
+client-old/.output
+client-old/.nuxt
+client-old/.nitro
+client-old/.cache
+client-old/dist
 
 # Node dependencies
-client/node_modules
+client-old/node_modules
 
 # Logs
-client/logs
+client-old/logs
 client/*.log
 
 # Misc
-client/.DS_Store
-client/.fleet
-client/.idea
+client-old/.DS_Store
+client-old/.fleet
+client-old/.idea
 
 # Local env files
-client/.env
-client/.env.*
-client/!.env.example
+client-old/.env
+client-old/.env.*
+client-old/!.env.example
 
 
 # compiled output
