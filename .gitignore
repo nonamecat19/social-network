@@ -44,3 +44,27 @@ server/*.launch
 server/.settings/
 server/*.sublime-workspace
 .vercel
+
+
+# Nuxt dev/build outputs
+client/.output
+client/.nuxt
+client/.nitro
+client/.cache
+client/dist
+
+# Node dependencies
+client/node_modules
+
+# Logs
+client/logs
+
+# Misc
+client/.DS_Store
+client/.fleet
+client/.idea
+
+# Local env files
+client/.env
+client/.env.*
+client/!.env.example
