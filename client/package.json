@@ -8,6 +8,10 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxt/devtools": "^0.6.6",
     "nuxt": "^3.0.0"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.20"
   }
 }
