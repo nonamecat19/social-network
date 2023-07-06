@@ -9,9 +9,13 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^0.6.6",
-    "nuxt": "^3.0.0"
+    "@nuxt/image": "^1.0.0-rc.1",
+    "@nuxthq/ui": "^2.5.0",
+    "@nuxtjs/tailwindcss": "^6.8.0",
+    "nuxt": "^3.0.0",
+    "nuxt-headlessui": "^1.1.4"
   },
   "dependencies": {
-    "ant-design-vue": "^3.2.20"
+    "vue-burger-menu": "^2.0.5"
   }
 }

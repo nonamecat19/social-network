@@ -4,5 +4,7 @@ export default {
   },
   modules: [
     '@nuxt/devtools',
+    '@nuxthq/ui',
+    '@nuxt/image',
   ],
 };

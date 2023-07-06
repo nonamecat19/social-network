@@ -1,13 +1,10 @@
-<script setup lang='ts'>
-
-</script>
-
 <template>
-<div>
-  index
-</div>
+  <div>
+    asdfasdf
+  </div>
 </template>
-
-<style scoped>
-
-</style>
+<script lang='ts'>
+definePageMeta({
+  layout: "main",
+});
+</script>
