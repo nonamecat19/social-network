@@ -13,6 +13,10 @@
 definePageMeta({
   layout: "main",
 });
+
+export default {
+
+}
 </script>
 <style scoped>
 

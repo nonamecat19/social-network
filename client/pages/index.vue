@@ -7,4 +7,7 @@
 definePageMeta({
   layout: "main",
 });
+export default {
+
+}
 </script>
