@@ -1,9 +1,9 @@
-<script lang='ts'>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'card',
+<script lang='ts' setup>
+const props = defineProps({
+  title: String,
+  price: Number
 })
+
 </script>
 
 <template>
@@ -15,7 +15,7 @@ export default defineComponent({
       fit='cover'
     />
 
-    <h2 class='mt-2 text-xl h-[30px]'>Test title</h2>
+    <h2 class='mt-2 text-xl h-[30px]'>{{ title }} - {{ price }}</h2>
     <div class='flex w-full'>
       <NuxtLink to='/products/234'>
         <button class='text-green-600 text-xl bg-white p-2 w-[260px] rounded-xl'>

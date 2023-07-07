@@ -1,10 +1,7 @@
-<script lang='ts'>
+<script lang='ts' setup>
 definePageMeta({
   layout: "main",
 })
-export default {
-
-}
 </script>
 
 <template>

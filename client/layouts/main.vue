@@ -5,10 +5,8 @@
 
   </section>
 </template>
-<script>
-export default {
+<script setup>
 
-}
 </script>
 <style>
   html, body{
