@@ -1,82 +1,55 @@
-import {Friendship, FriendshipRequest, LikeComment, LikePost, Post, PostComment} from './index';
 import {
   Column, CreateDateColumn,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn, UpdateDateColumn,
+  Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm'
+import { Basket } from './basket.entity'
+import { Favorite } from './favorite.entity'
 
-@Index("account_pkey", ["idAccount"], { unique: true })
-@Entity("account", { schema: "public" })
+@Entity()
 export class Account {
-  @PrimaryGeneratedColumn({ type: "integer", name: "id_account" })
-  idAccount: number;
+  @PrimaryGeneratedColumn({name: 'id_account'})
+  id: number;
 
-  @Column("character varying", {
-    name: "name",
-    nullable: true,
-    length: 255,
+  @Column()
+  name: string;
+
+  @Column()
+  surname: string;
+
+  @Column()
+  patronymic: string;
+
+  @Column()
+  login: string;
+
+  @Column()
+  contacts: string | null;
+
+  @Column()
+  address: string | null;
+
+  @Column()
+  password: string | null;
+
+  @Column()
+  photo_src: string | null;
+
+  @Column("enum", {
+    name: "group",
+    enum: ["New buyer", "Rare buyer", "Frequent buyer", "VIP"],
+    default: "New buyer"
   })
-  name: string | null;
+  group: "New buyer" | "Rare buyer" | "Frequent buyer" | "VIP" | null;
 
-  @Column("character varying", {
-    name: "surname",
-    nullable: true,
-    length: 255,
-  })
-  surname: string | null;
+  @OneToMany(() => Basket, (basket) => basket.account, {onDelete: 'CASCADE'})
+  baskets: Basket[]
 
-  @Column("character varying", { name: "nickname", length: 255 })
-  nickname: string;
-
-  @Column("date", { name: "dateOfbBirth", nullable: true })
-  dateOfBirth: string | null;
-
-  @Column("character varying", { name: "password", length: 255 })
-  password: string;
-
-  @Column("character varying", { name: "photo_src", nullable: true })
-  photoSrc: string | null;
-
-  @Column("text", { name: "description", nullable: true })
-  description: string | null;
-
-  // @Column("timestamp without time zone", {
-  //   name: "dateofregistration",
-  //   nullable: true,
-  //   default: () => "CURRENT_TIMESTAMP",
-  // })
-  // dateofregistration: Date | null;
+  @OneToMany(() => Favorite, (favorite) => favorite.account, {onDelete: 'CASCADE'})
+  favorites: Favorite[]
 
   @CreateDateColumn({type: 'timestamp'})
   createdAt: Date;
 
   @UpdateDateColumn({type: 'timestamp'})
-  updatedAt: Date;
-
-
-  @OneToMany(() => Friendship, (friendship) => friendship.idAccount, { onDelete: 'CASCADE'})
-  friendships: Friendship[];
-
-  @OneToMany(() => Friendship, (friendship) => friendship.idAccount2, { onDelete: 'CASCADE'})
-  friendships2: Friendship[];
-
-  @OneToMany(() => FriendshipRequest, (friendshipRequest) => friendshipRequest.idAccount, { onDelete: 'CASCADE'})
-  friendshipRequests: FriendshipRequest[];
-
-  @OneToMany(() => FriendshipRequest, (friendshipRequest) => friendshipRequest.idAccount2, { onDelete: 'CASCADE'})
-  friendshipRequests2: FriendshipRequest[];
-
-  @OneToMany(() => LikeComment, (likeComment) => likeComment.idAccount, { onDelete: 'CASCADE'})
-  likeComments: LikeComment[];
-
-  @OneToMany(() => LikePost, (likePost) => likePost.idAccount, { onDelete: 'CASCADE'})
-  likePosts: LikePost[];
-
-  @OneToMany(() => Post, (post) => post.idAccount, { onDelete: 'CASCADE'})
-  posts: Post[];
-
-  @OneToMany(() => PostComment, (postComment) => postComment.idAccount, { onDelete: 'CASCADE'})
-  postComments: PostComment[];
+  updateAt: Date;
 }

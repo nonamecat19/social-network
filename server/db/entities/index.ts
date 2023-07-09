@@ -1,7 +1,7 @@
 export { Account } from "./account.entity";
-export { Friendship } from "./friendship.entity";
-export { FriendshipRequest } from "./friendship-request.entity";
-export { LikeComment } from "./like-comment.entity";
-export { LikePost } from "./like-post.entity";
-export { Post } from "./post.entity";
-export { PostComment } from "./post-comment.entity";
+export { Basket } from "./basket.entity";
+export { Category } from "./category.entity";
+export { Favorite } from "./favorite.entity";
+export { Order } from "./order.entity";
+export { Producer } from "./producer.entity";
+export { Product } from "./product.entity";
