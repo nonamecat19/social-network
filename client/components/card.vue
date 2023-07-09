@@ -1,27 +1,28 @@
 <script lang='ts' setup>
 const props = defineProps({
   title: String,
-  price: Number
+  price: Number,
+  id: String,
+  image: {
+    type: String,
+    required: true
+  }
 })
-
+import { cut } from '~/utils/stringUtils'
+const link = `/products/${props.id}`
 </script>
 
 <template>
-  <div class='w-[300px] h-[290px] bg-green-600 rounded-2xl p-[20px]'>
+  <NuxtLink :to='link'>
+  <div class='w-full border-primary-500 bg-white border rounded-2xl p-2'>
     <nuxt-img
-      src='https://lingerie.ua/files/product/0/28650/28650.jpg'
-      class='h-[170px] object-cover rounded-2xl'
+      :src='image'
+      class='h-[30vw] w-full object-cover rounded-xl'
       width='260'
       fit='cover'
     />
-
-    <h2 class='mt-2 text-xl h-[30px]'>{{ title }} - {{ price }}</h2>
-    <div class='flex w-full'>
-      <NuxtLink to='/products/234'>
-        <button class='text-green-600 text-xl bg-white p-2 w-[260px] rounded-xl'>
-          Перейти до товару
-        </button>
-      </NuxtLink>
-    </div>
+    <h2 class='mt-2 text-md text-primary-500'>{{ cut(title, 22) }}</h2>
+    <h3 class='text-sm text-black'>{{ price }} грн</h3>
   </div>
+  </NuxtLink>
 </template>

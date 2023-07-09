@@ -13,7 +13,8 @@
     "@nuxthq/ui": "^2.5.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "nuxt": "^3.0.0",
-    "nuxt-headlessui": "^1.1.4"
+    "nuxt-headlessui": "^1.1.4",
+    "nuxt-icon": "^0.4.2"
   },
   "dependencies": {
     "vue-burger-menu": "^2.0.5"
