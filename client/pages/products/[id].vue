@@ -39,7 +39,7 @@ function handleLikeClick() {
       <div class='flex justify-between w-full gap-6'>
         <div class='w-full'>
           <div class='mt-4'>
-            <h2 class='text-primary`-600 font-bold text-2xl'>
+            <h2 class='text-primary-600 font-bold text-2xl'>
               {{ title }}
             </h2>
           </div>

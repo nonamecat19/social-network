@@ -5,6 +5,7 @@
     }"
     :modules="modules"
     class="mySwiper"
+    :navigation='true'
   >
     <swiperSlide v-for='image in images'>
       <nuxt-img
@@ -20,7 +21,8 @@
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Pagination } from '~/node_modules/swiper/modules';
+import 'swiper/css/navigation';
+import { Pagination, Navigation } from '~/node_modules/swiper/modules';
 
 export default {
   components: {
@@ -29,52 +31,54 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination],
+      modules: [Pagination, Navigation],
     };
   },
   props: ['images']
 };
 </script>
-<style>
+<style lang='scss'>
 
 .swiper {
   width: 100%;
   height: 100%;
   border-radius: 15px;
-}
 
-.swiper-slide {
-  text-align: center;
-  color: red;
-  font-size: 18px;
-  background: #fff;
-  height: 70vw;
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-}
+  &-slide {
+    text-align: center;
+    font-size: 18px;
+    height: 70vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      padding: 5px;
+      border-radius: 30px;
+    }
+  }
 
-.swiper-pagination-bullet {
-  background: #10B981;
-  height: 15px;
-  width: 15px;
-}
+  &-pagination {
+    &-bullet {
+      background: #10B981;
+      height: 15px;
+      width: 15px;
 
-.swiper-pagination-bullet-active-prev, .swiper-pagination-bullet-active-next  {
-  opacity: 0.8;
-}
+      &-active {
+        &-prev, &-next  {
+          opacity: 0.8;
+        }
 
-.swiper-pagination-bullet-active-prev-prev, .swiper-pagination-bullet-active-next-next  {
-  opacity: 0.7;
+        &-prev-prev, &-next-next  {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
 }
 
 </style>

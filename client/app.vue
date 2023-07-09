@@ -16,8 +16,10 @@
 }
 html, body{
   background: #fff;
+  --swiper-theme-color: #10B981;
 }
-button {
+
+button, div {
   -webkit-tap-highlight-color: transparent;
 }
 </style>

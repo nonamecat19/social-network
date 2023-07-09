@@ -18,6 +18,7 @@
     "nuxt-swiper": "^1.1.1"
   },
   "dependencies": {
+    "sass": "^1.63.6",
     "swiper": "^10.0.4",
     "vue-burger-menu": "^2.0.5"
   }
