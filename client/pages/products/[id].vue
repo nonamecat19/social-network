@@ -1,6 +1,7 @@
 <script lang='ts' setup>
 import MobileBottomNavigation from '~/ui/MobileBottomNavigation.vue'
 import SelectButton from '~/ui/SelectButton.vue'
+import Slider from '~/ui/Slider.vue'
 
 definePageMeta({
   layout: 'main',
@@ -10,7 +11,11 @@ let description = 'Description Description Description Description Description D
 let title = 'Title title Title title Title title title title'
 let inCart = ref<boolean>(true)
 let isLiked = ref<boolean>(false)
-
+let images = [
+  'https://images.prom.ua/4231498781_w640_h640_dvuhspalnoe-postelnoe-bele.jpg',
+  'https://content2.rozetka.com.ua/goods/images/big/316640713.jpg',
+  'https://content.rozetka.com.ua/goods/images/big/316641689.jpg'
+]
 function handleCartClick() {
   inCart.value = !inCart.value
 }
@@ -19,22 +24,22 @@ function handleLikeClick() {
   isLiked.value = !isLiked.value
 }
 
+
+
+
+
 </script>
 
 <template>
   <section>
     <div class='px-6 w-screen'>
       <div class='pt-4'>
-        <nuxt-img
-          src='https://lingerie.ua/files/product/0/28650/28650.jpg'
-          class='h-[70vw] object-cover rounded-2xl mx-auto'
-          width='700'
-        />
+        <Slider :images='images'/>
       </div>
       <div class='flex justify-between w-full gap-6'>
         <div class='w-full'>
           <div class='mt-4'>
-            <h2 class='text-primary-600 font-bold text-2xl'>
+            <h2 class='text-primary`-600 font-bold text-2xl'>
               {{ title }}
             </h2>
           </div>

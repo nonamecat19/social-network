@@ -14,9 +14,11 @@
     "@nuxtjs/tailwindcss": "^6.8.0",
     "nuxt": "^3.0.0",
     "nuxt-headlessui": "^1.1.4",
-    "nuxt-icon": "^0.4.2"
+    "nuxt-icon": "^0.4.2",
+    "nuxt-swiper": "^1.1.1"
   },
   "dependencies": {
+    "swiper": "^10.0.4",
     "vue-burger-menu": "^2.0.5"
   }
 }

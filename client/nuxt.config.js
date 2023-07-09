@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxt/devtools',
     '@nuxthq/ui',
     '@nuxt/image',
-    'nuxt-icon'
+    'nuxt-icon',
+    'nuxt-swiper'
   ],
   app: {
     pageTransition: { name: 'page', mode: 'out-in' }
