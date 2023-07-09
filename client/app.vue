@@ -21,5 +21,3 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 </style>
-<script setup lang='ts'>
-</script>

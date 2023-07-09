@@ -1,22 +1,14 @@
+<script setup lang='ts'>
+let isHeaderOpen = ref<boolean>(false)
+function handleHeaderClick() {
+  isHeaderOpen.value = !isHeaderOpen.value
+}
+
+</script>
 <template>
   <section class='bg-primary-50 min-h-screen'>
 
-    <Transition name='menu'>
-      <div
-        class='h-screen w-screen fixed z-20 bg-primary-50'
-        v-if='isHeaderOpen'
-      >
-        <Icon
-          name='material-symbols:close'
-          color='primary'
-          size='50'
-          class='fixed right-0'
-          @click='handleHeaderClick'
-        />
-      </div>
-    </Transition>
-
-    <nav class='bg-primary-700 h-12'>
+    <nav class='bg-primary-500 h-12'>
       <Icon
         name='iconamoon:menu-burger-horizontal'
         color='white'
@@ -26,17 +18,25 @@
       />
     </nav>
 
+    <USlideover
+      v-model="isHeaderOpen"
+      side='left'
+    >
+      <div class='relative'>
+        <Icon
+          name='material-symbols:close'
+          size='50'
+          color='gray'
+          class='absolute right-0'
+          @click='handleHeaderClick'
+        />
+      </div>
+    </USlideover>
+
     <slot/>
 
   </section>
 </template>
-<script setup lang='ts'>
-let isHeaderOpen = ref<boolean>(false)
-function handleHeaderClick() {
-  isHeaderOpen.value = !isHeaderOpen.value
-}
-
-</script>
 <style>
 
 /* we will explain what these classes do next! */
