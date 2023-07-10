@@ -3,9 +3,6 @@ import MobileBottomNavigation from '~/ui/MobileBottomNavigation.vue'
 import SelectButton from '~/ui/SelectButton.vue'
 import Slider from '~/ui/Slider.vue'
 
-definePageMeta({
-  layout: 'main',
-})
 let price = 400
 let description = 'Description Description Description Description Description Description Description'
 let title = 'Title title Title title Title title title title'
@@ -23,10 +20,6 @@ function handleCartClick() {
 function handleLikeClick() {
   isLiked.value = !isLiked.value
 }
-
-
-
-
 
 </script>
 

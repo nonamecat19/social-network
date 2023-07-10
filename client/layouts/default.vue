@@ -1,14 +1,18 @@
 <script setup lang='ts'>
+import MobileMenuLinks from '~/widgets/MobileMenuLinks.vue'
+import MobileNavigation from '~/ui/MobileNavigation.vue'
+
 let isHeaderOpen = ref<boolean>(false)
 function handleHeaderClick() {
   isHeaderOpen.value = !isHeaderOpen.value
 }
 
 </script>
+
 <template>
   <section class='bg-primary-50 min-h-screen'>
 
-    <nav class='bg-primary-500 h-12'>
+    <MobileNavigation>
       <Icon
         name='iconamoon:menu-burger-horizontal'
         color='white'
@@ -16,39 +20,38 @@ function handleHeaderClick() {
         class='ml-2 mt-1.5'
         @click='handleHeaderClick'
       />
-    </nav>
+    </MobileNavigation>
 
     <USlideover
-      v-model="isHeaderOpen"
+      v-model='isHeaderOpen'
       side='left'
     >
-      <div class='relative'>
+      <MobileNavigation>
         <Icon
           name='material-symbols:close'
           size='50'
-          color='gray'
+          color='white'
           class='absolute right-0'
           @click='handleHeaderClick'
         />
-      </div>
+      </MobileNavigation>
+
+      <MobileMenuLinks @click='handleHeaderClick'/>
     </USlideover>
 
-    <slot/>
+    <slot />
 
   </section>
 </template>
-<style>
 
-/* we will explain what these classes do next! */
-.menu-enter-active,
-.menu-leave-active {
-  transition: opacity 0.5s ease;
+<style lang='scss'>
+.menu {
+  &-enter-active, &-leave-active {
+    transition: opacity 0.5s ease;
+  }
+
+  &-enter-from, &-leave-to {
+    opacity: 0;
+  }
 }
-
-.menu-enter-from,
-.menu-leave-to {
-  opacity: 0;
-}
-
-
 </style>

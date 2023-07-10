@@ -1,8 +1,6 @@
 <template>
   <swiper
-    :pagination="{
-      dynamicBullets: true,
-    }"
+    :pagination="{dynamicBullets: true}"
     :modules="modules"
     class="mySwiper"
     :navigation='true'
@@ -16,8 +14,8 @@
     </swiperSlide>
   </swiper>
 </template>
-<script>
 
+<script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -37,8 +35,8 @@ export default {
   props: ['images']
 };
 </script>
-<style lang='scss'>
 
+<style lang='scss'>
 .swiper {
   width: 100%;
   height: 100%;
@@ -80,5 +78,4 @@ export default {
     }
   }
 }
-
 </style>

@@ -1,3 +1,7 @@
+<script lang='ts' setup>
+
+</script>
+
 <template>
 <section>
   <div class='grid grid-cols-2 gap-3 p-3'>
@@ -34,11 +38,7 @@
   </div>
 </section>
 </template>
-<script lang='ts' setup>
-definePageMeta({
-  layout: "main",
-});
-</script>
+
 <style scoped>
 
 </style>
