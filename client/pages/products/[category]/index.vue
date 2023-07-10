@@ -1,9 +1,13 @@
 <script lang='ts' setup>
-
+const router = useRouter()
+const { category } = router.currentRoute.value.params
 </script>
 
 <template>
 <section>
+  <h2>
+    {{ category }}
+  </h2>
   <div class='grid grid-cols-2 gap-3 p-3'>
     <card
       :price='23'

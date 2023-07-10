@@ -1,7 +1,7 @@
 <script lang='ts' setup>
 import MobileBottomNavigation from '~/ui/MobileBottomNavigation.vue'
 import SelectButton from '~/ui/SelectButton.vue'
-import Slider from '~/ui/Slider.vue'
+import Slider from '~/ui/ImageSlider.vue'
 
 let price = 400
 let description = 'Description Description Description Description Description Description Description'
