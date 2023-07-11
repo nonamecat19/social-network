@@ -1,6 +1,18 @@
 <script lang='ts' setup>
+import ProductCard from '~/ui/ProductCard.vue'
+
 const router = useRouter()
 const { category } = router.currentRoute.value.params
+definePageMeta({
+  layout: "main",
+})
+
+
+let images = [
+  'https://images.prom.ua/4231498781_w640_h640_dvuhspalnoe-postelnoe-bele.jpg',
+  'https://content2.rozetka.com.ua/goods/images/big/316640713.jpg',
+  'https://content.rozetka.com.ua/goods/images/big/316641689.jpg'
+]
 </script>
 
 <template>
@@ -9,35 +21,35 @@ const { category } = router.currentRoute.value.params
     {{ category }}
   </h2>
   <div class='grid grid-cols-2 gap-3 p-3'>
-    <card
+    <ProductCard
       :price='23'
       title='Title'
       id='1'
       image='https://lingerie.ua/files/product/0/28650/28650.jpg'
     />
-    <card
+    <ProductCard
       :price='24'
       title='Title'
       id='2'
-      image='https://lingerie.ua/files/product/0/28650/28650.jpg'
+      :image=images[0]
     />
-    <card
+    <ProductCard
       :price='25'
       title='Tit123123  1231 123 23leфіва 1234 '
       id='3'
-      image='https://lingerie.ua/files/product/0/28650/28650.jpg'
+      :image=images[1]
     />
-    <card
+    <ProductCard
       :price='26'
       title='Title'
       id='4'
-      image='https://lingerie.ua/files/product/0/28650/28650.jpg'
+      :image=images[2]
     />
-    <card
+    <ProductCard
       :price='27'
       title='Title'
       id='5'
-      image='https://lingerie.ua/files/product/0/28650/28650.jpg'
+      :image=images[0]
     />
   </div>
 </section>

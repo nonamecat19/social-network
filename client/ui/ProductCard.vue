@@ -18,12 +18,19 @@ const link = `/products/bedcovers/${props.id}`
     <div class='w-full border-primary-500 bg-white border rounded-2xl p-2'>
       <nuxt-img
         :src='image'
-        class='h-[30vw] w-full object-cover rounded-xl'
+        class='w-full rounded-xl card-image'
         width='260'
+        height='10vw'
         fit='cover'
       />
       <h2 class='mt-2 text-md text-primary-500'>{{ cut(title, 22) }}</h2>
-      <h3 class='text-sm text-black'>{{ price }} грн</h3>
+      <h3 class='text-sm text-primary-600'>{{ price }} грн</h3>
     </div>
   </NuxtLink>
 </template>
+<style scoped>
+.card-image {
+  height: 40vw;
+  object-fit: cover;
+}
+</style>

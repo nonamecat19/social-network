@@ -23,5 +23,6 @@ defineProps({
 <style scoped>
 div {
   padding: 10px 10px;
+  color: #313131
 }
 </style>

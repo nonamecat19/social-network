@@ -19,6 +19,9 @@ let orderLinks = [
     to: '/profile/settings'
   }
 ]
+definePageMeta({
+  layout: "main",
+})
 </script>
 
 <template>

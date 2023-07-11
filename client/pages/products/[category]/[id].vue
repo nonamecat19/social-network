@@ -21,6 +21,9 @@ function handleLikeClick() {
   isLiked.value = !isLiked.value
 }
 
+definePageMeta({
+  layout: "main",
+})
 </script>
 
 <template>
