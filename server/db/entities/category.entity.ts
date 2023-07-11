@@ -15,6 +15,8 @@ export class Category {
   @Column()
   photo_src: string | null
 
+
+
   // @Column()
   // SEO_atributs: string;
 

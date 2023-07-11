@@ -32,8 +32,7 @@ export class Product {
   @Column()
   count: number
 
-  // @Column()
-  // opcions: number;
+
 
   // @Column()
   // SEO_atributs: string;

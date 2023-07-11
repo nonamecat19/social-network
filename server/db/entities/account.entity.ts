@@ -10,36 +10,37 @@ export class Account {
   @PrimaryGeneratedColumn({name: 'id_account'})
   id: number;
 
-  @Column()
+  @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: false })
   surname: string;
 
-  @Column()
+  @Column({ nullable: false })
   patronymic: string;
 
-  @Column()
+  @Column({ nullable: false, unique: true })
   login: string;
 
-  @Column()
-  contacts: string | null;
+  @Column({ nullable: true })
+  password: string;
 
-  @Column()
-  address: string | null;
+  @Column({ nullable: true })
+  contacts: string;
 
-  @Column()
-  password: string | null;
+  @Column({ nullable: true })
+  address: string;
 
-  @Column()
-  photo_src: string | null;
+  @Column({ nullable: true })
+  photo_src: string;
 
   @Column("enum", {
     name: "group",
     enum: ["New buyer", "Rare buyer", "Frequent buyer", "VIP"],
-    default: "New buyer"
+    default: "New buyer",
+    nullable: true
   })
-  group: "New buyer" | "Rare buyer" | "Frequent buyer" | "VIP" | null;
+  group: "New buyer" | "Rare buyer" | "Frequent buyer" | "VIP";
 
   @OneToMany(() => Basket, (basket) => basket.account, {onDelete: 'CASCADE'})
   baskets: Basket[]
