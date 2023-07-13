@@ -4,6 +4,7 @@ import { UpdateAccountDto } from './dto/update-account.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Account } from '../../../db/entities'
 import { Repository } from 'typeorm'
+import { JwtService } from '@nestjs/jwt'
 
 //import  argon2  from 'argon2'
 
@@ -11,6 +12,7 @@ import { Repository } from 'typeorm'
 export class AccountService {
   constructor(
     @InjectRepository(Account) private readonly accountRepository: Repository<Account>,
+    private  readonly jwrService: JwtService
   ) {
   }
 
@@ -35,7 +37,9 @@ export class AccountService {
       group: createAccountDto.group,
     })
 
-    return { account }
+    const token = this.jwrService.sign({ login: createAccountDto.login })
+
+    return { account, token }
   }
 
   // findAll() {
