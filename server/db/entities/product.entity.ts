@@ -20,8 +20,8 @@ export class Product {
   @Column()
   name: string
 
-  @Column()
-  description: string | null
+  @Column({ nullable: true })
+  description: string
   //
   // @Column()
   // photo_src: string | null

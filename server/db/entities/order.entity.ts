@@ -15,8 +15,8 @@ export class Order {
   @Column()
   name: string;
 
-  @Column()
-  comment: string | null;
+  @Column({ nullable: true })
+  comment: string;
 
   @Column()
   delivery_method: string;
@@ -27,9 +27,10 @@ export class Order {
   @Column("enum", {
     name: "status",
     enum: ["rejected", "accepted", "reviewed", "not reviewed"],
-    default: "not reviewed"
+    default: "not reviewed",
+    nullable: true
   })
-  status: "rejected" | "accepted" | "reviewed" | "not reviewed" | null;
+  status: "rejected" | "accepted" | "reviewed" | "not reviewed";
 
   @ManyToMany(type => Basket)
   @JoinTable()

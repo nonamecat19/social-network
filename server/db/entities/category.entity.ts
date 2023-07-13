@@ -6,16 +6,14 @@ export class Category {
   @PrimaryGeneratedColumn({ name: 'id_category' })
   id: number
 
-  @Column()
+  @Column({ nullable: false })
   title: string
 
-  @Column()
-  description: string | null
+  @Column({ nullable: true })
+  description: string
 
-  @Column()
-  photo_src: string | null
-
-
+  @Column({ nullable: true })
+  photo_src: string
 
   // @Column()
   // SEO_atributs: string;
