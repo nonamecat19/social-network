@@ -23,6 +23,7 @@
     "migrate:undo:dev": "ts-node ./node_modules/typeorm/cli migration:revert -d db/dataSource.ts"
   },
   "dependencies": {
+    "@nestjs/apollo": "^12.0.7",
     "@nestjs/common": "^9.4.3",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^9.4.3",

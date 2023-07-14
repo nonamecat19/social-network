@@ -22,17 +22,15 @@ export class Product {
 
   @Column({ nullable: true })
   description: string
-  //
-  // @Column()
-  // photo_src: string | null
+
+  @Column({ nullable: true })
+  photo_src: string
 
   @Column()
   price: number
 
   @Column()
   count: number
-
-
 
   // @Column()
   // SEO_atributs: string;

@@ -3,6 +3,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { AccountModule } from './modules/account/account.module'
@@ -18,10 +19,18 @@ import dbConfig from './common/configs/postgres.config'
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    // GraphQLModule.forRoot({
-    //   autoSchemaFile: './schema.gql',
+    GraphQLModule.forRoot({
+      //autoSchemaFile: './schema.gql',
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      debug: true, // в продакшені має бути вимкнений
+      playground: true,
+    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   autoSchemaFile: true,
     //   debug: true,
-    //   playground: true,
+    //   playground: true
     // }),
     TypeOrmModule.forRootAsync(dbConfig),
     AccountModule,

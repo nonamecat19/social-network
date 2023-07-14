@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { AppModule } from './app.module'
+import { ValidationPipe } from '@nestjs/common'
+import { EntityNotFoundErrorFilter } from './common/filter/entity-not-found-error.filter'
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalFilters(new EntityNotFoundErrorFilter())
   // app.setGlobalPrefix('api')
   // app.enableCors() //щоб не було конфліктів зі сторони серверу під час відпровки запитів
 
