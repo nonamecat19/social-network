@@ -6,7 +6,6 @@ import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEditInput } from '../../graphql-input/basket-edit.input'
 import { EntityWithId } from '../../types/basket.types'
 
-
 @Resolver(() => Basket)
 export class BasketResolver {
   constructor(

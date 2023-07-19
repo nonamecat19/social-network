@@ -20,18 +20,11 @@ import dbConfig from './common/configs/postgres.config'
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     GraphQLModule.forRoot({
-      //autoSchemaFile: './schema.gql',
       driver: ApolloDriver,
       autoSchemaFile: true,
       debug: true, // в продакшені має бути вимкнений
       playground: true,
     }),
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   autoSchemaFile: true,
-    //   debug: true,
-    //   playground: true
-    // }),
     TypeOrmModule.forRootAsync(dbConfig),
     AccountModule,
     BasketModule,

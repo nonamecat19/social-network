@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator'
+import { Group } from '../../../types/account.types'
 
 export class CreateAccountDto {
   @IsNotEmpty()
@@ -29,6 +30,6 @@ export class CreateAccountDto {
   photo_src: string
 
   @IsOptional()
-  group: 'New buyer' | 'Rare buyer' | 'Frequent buyer' | 'VIP'
+  group: Group
 
 }

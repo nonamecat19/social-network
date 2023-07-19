@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { Favorite } from '../../../db/entities'
 import { FavoriteAddInput } from '../../graphql-input/favorite-add.input'
 import { FavoriteEditInput } from '../../graphql-input/favorite-edit.input'
-import { EntityWithId } from '../../types/category.types'
+import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Favorite)
 export class FavoriteResolver {

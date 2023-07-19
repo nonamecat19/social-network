@@ -1,10 +1,12 @@
 import { registerEnumType } from '@nestjs/graphql'
 
 export enum Group {
-  NewBuyer = 'New buyer',
-  RareBuyer = 'Rare buyer',
-  FrequentBuyer = 'Frequent buyer',
+  newBuyer = 'new buyer',
+  rareBuyer = 'rare buyer',
+  frequentBuyer = 'frequent buyer',
   VIP = 'VIP',
 }
 
-registerEnumType(Group)
+registerEnumType(Group, {
+  name: 'Group',
+});

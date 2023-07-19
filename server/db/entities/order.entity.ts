@@ -9,6 +9,7 @@ import {
 } from 'typeorm'
 import { Basket } from './basket.entity'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Status } from '../../src/types/order.types'
 
 @Entity()
 @ObjectType()
@@ -39,15 +40,15 @@ export class Order {
   @Field()
   payment_method: string
 
-  // @Column('enum', {
-  //   name: 'status',
- //    type: 'enum',
-  //   enum: Status,
-  //   default: Status.notReviewed,
-  //   //nullable: true,
-  // })
-  // @Field(() => Status)
-  // status: Status
+  @Column('enum', {
+    //name: 'status',
+    enum: Status,
+    default: Status.notReviewed,
+    nullable: true,
+  })
+  @Field(() => Status, { nullable: true })
+  status: Status
+
 
   @ManyToMany(() => Basket)
   @JoinTable()

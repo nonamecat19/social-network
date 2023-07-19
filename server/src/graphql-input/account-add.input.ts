@@ -3,6 +3,7 @@ import { Group } from '../types/account.types'
 
 @InputType()
 export class AccountAddInput{
+
   @Field()
   name: string
 
@@ -27,7 +28,7 @@ export class AccountAddInput{
   @Field({ nullable: true })
   photo_src: string
 
-  // @Field()
-  // group: Group
+  @Field({ nullable: true })
+  group: Group
 
 }

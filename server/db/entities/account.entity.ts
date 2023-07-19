@@ -56,15 +56,14 @@ export class Account {
   @Field({ nullable: true })
   photo_src: string
 
-  // @Column({
-  //   name: 'group',
-  //   type: 'enum',
-  //   enum: Group,
-  //   default: Group.NewBuyer,
-  //   nullable: true,
-  // })
-  // @Field(() => Group)
-  // group: Group
+  @Column('enum', {
+    //name: 'group',
+    enum: Group,
+    default: Group.newBuyer,
+    nullable: true,
+  })
+  @Field(() => Group)
+  group: Group
 
 
   @OneToMany(() => Basket, (basket) => basket.account, { onDelete: 'CASCADE' })

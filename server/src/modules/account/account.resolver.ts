@@ -1,10 +1,10 @@
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Account } from '../../../db/entities'
 import { Repository } from 'typeorm'
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { AccountAddInput } from '../../graphql-input/account-add.input'
 import { AccountEditInput } from '../../graphql-input/account-edit.input'
-import { EntityWithId } from '../../types/category.types'
+import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Account)
 export class AccountResolver {

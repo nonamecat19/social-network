@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { ProductAddInput } from '../../graphql-input/product-add.input'
 import { ProductEditInput } from '../../graphql-input/product-edit.input'
-// import { EntityWithId } from '../../types/product.types'
+import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Product)
 export class ProductResolver{
@@ -57,18 +57,18 @@ export class ProductResolver{
     )
   }
 
-  // @Mutation(() => EntityWithId, { name: 'productDelete' })
-  // public async delete(
-  //   @Args('id', { type: () => Int })
-  //     id: number,
-  // ): Promise<EntityWithId> {
-  //   const product = await this.productRepository.findOneOrFail({
-  //     where: {
-  //       id,
-  //     },
-  //   })
-  //   await this.productRepository.remove(product)
-  //
-  //   return new EntityWithId(id)
-  // }
+  @Mutation(() => EntityWithId, { name: 'productDelete' })
+  public async delete(
+    @Args('id', { type: () => Int })
+      id: number,
+  ): Promise<EntityWithId> {
+    const product = await this.productRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    })
+    await this.productRepository.remove(product)
+
+    return new EntityWithId(id)
+  }
 }

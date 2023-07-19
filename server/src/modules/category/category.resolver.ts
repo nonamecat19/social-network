@@ -4,7 +4,7 @@ import { Category } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { CategoryAddInput } from '../../graphql-input/category-add.input'
 import { CategoryEditInput } from '../../graphql-input/category-edit.input'
-import { EntityWithId } from '../../types/category.types'
+import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Category)
 export class CategoryResolver {

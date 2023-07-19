@@ -3,8 +3,8 @@ import { Producer } from '../../../db/entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { ProducerAddInput } from '../../graphql-input/producer-add.input'
-import { ProducerEditInput } from '../../graphql-input/producer-edit.input'
-// import { EntityWithId } from '../../types/producer.types'
+// import { ProducerEditInput } from '../../graphql-input/producer-edit.input'
+// import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Producer)
 export class ProducerResolver{
@@ -40,23 +40,23 @@ export class ProducerResolver{
   }
 
 
-  @Mutation(() => Producer, { name: 'producerEdit' })
-  public async edit(
-    @Args('id', { type: () => Int })
-      id: number,
-    @Args('input', { type: () => ProducerEditInput })
-      input: ProducerEditInput,
-  ): Promise<Producer> {
-    const producer = await this.producerRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    return await this.producerRepository.save(
-      new Producer(Object.assign(producer, input)),
-    )
-  }
-
+  // @Mutation(() => Producer, { name: 'producerEdit' })
+  // public async edit(
+  //   @Args('id', { type: () => Int })
+  //     id: number,
+  //   @Args('input', { type: () => ProducerEditInput })
+  //     input: ProducerEditInput,
+  // ): Promise<Producer> {
+  //   const producer = await this.producerRepository.findOneOrFail({
+  //     where: {
+  //       id,
+  //     },
+  //   })
+  //   return await this.producerRepository.save(
+  //     new Producer(Object.assign(producer, input)),
+  //   )
+  // }
+  //
   // @Mutation(() => EntityWithId, { name: 'producerDelete' })
   // public async delete(
   //   @Args('id', { type: () => Int })

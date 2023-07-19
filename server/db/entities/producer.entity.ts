@@ -24,16 +24,18 @@ export class Producer {
   @Field()
   name: string
 
-  @Column()
-  @Field()
+  @Column({ nullable: true })
+  @Field({ nullable: true })
   description: string
 
-  @Column()
-  @Field()
+  @Column({ nullable: true })
+  @Field({ nullable: true })
   photo_src: string
+
 
   @OneToMany(() => Product, (product) => product.producer, { onDelete: 'SET NULL' })
   products: Product[]
+
 
   @CreateDateColumn({ type: 'timestamp' })
   @Field()

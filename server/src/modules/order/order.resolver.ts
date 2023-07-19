@@ -1,10 +1,10 @@
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Order } from '../../../db/entities'
 import { Repository } from 'typeorm'
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { OrderAddInput } from '../../graphql-input/order-add.input'
 import { OrderEditInput } from '../../graphql-input/order-edit.input'
-// import { EntityWithId } from '../../types/category.types'
+import { EntityWithId } from '../../types/delete-id.types'
 
 @Resolver(() => Order)
 export class OrderResolver {
@@ -57,18 +57,18 @@ export class OrderResolver {
     )
   }
 
-  // @Mutation(() => EntityWithId, { name: 'orderDelete' })
-  // public async delete(
-  //   @Args('id', { type: () => Int })
-  //     id: number,
-  // ): Promise<EntityWithId> {
-  //   const order = await this.orderRepository.findOneOrFail({
-  //     where: {
-  //       id,
-  //     },
-  //   })
-  //   await this.orderRepository.remove(order)
-  //
-  //   return new EntityWithId(id)
-  // }
+  @Mutation(() => EntityWithId, { name: 'orderDelete' })
+  public async delete(
+    @Args('id', { type: () => Int })
+      id: number,
+  ): Promise<EntityWithId> {
+    const order = await this.orderRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    })
+    await this.orderRepository.remove(order)
+
+    return new EntityWithId(id)
+  }
 }
