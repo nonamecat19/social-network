@@ -1,4 +1,5 @@
-export interface IAccount{
+export interface IAccount {
   id: string,
   login: string
 }
+

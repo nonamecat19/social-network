@@ -7,11 +7,13 @@ import { UpdateAccountDto } from './dto/update-account.dto';
 export class AccountController {
   constructor(private readonly accountService: AccountService) {}
 
-  @Post()
-  @UsePipes(new ValidationPipe())
-  create(@Body() createAccountDto: CreateAccountDto) {
-    return this.accountService.create(createAccountDto);
-  }
+  // @Post()
+  // @UsePipes(new ValidationPipe())
+  // create(@Body() createAccountDto: CreateAccountDto) {
+  //   return this.accountService.create(createAccountDto);
+  // }
+
+
 
   // @Get()
   // findAll() {

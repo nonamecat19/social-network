@@ -1,44 +1,65 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinTable, ManyToMany,
+  Entity,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import { Basket } from './basket.entity'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @Entity()
+@ObjectType()
 export class Order {
-  @PrimaryGeneratedColumn({name: 'id_order'})
-  id: number;
+  constructor(
+    partial?: Partial<Order>,
+  ) {
+    Object.assign(this, partial)
+  }
+
+  @PrimaryGeneratedColumn({ name: 'id_order' })
+  @Field(() => Int)
+  id: number
 
   @Column()
-  name: string;
+  @Field()
+  name: string
 
   @Column({ nullable: true })
-  comment: string;
+  @Field({ nullable: true })
+  comment: string
 
   @Column()
-  delivery_method: string;
+  @Field()
+  delivery_method: string
 
   @Column()
-  payment_method: string;
+  @Field()
+  payment_method: string
 
-  @Column("enum", {
-    name: "status",
-    enum: ["rejected", "accepted", "reviewed", "not reviewed"],
-    default: "not reviewed",
-    nullable: true
-  })
-  status: "rejected" | "accepted" | "reviewed" | "not reviewed";
+  // @Column('enum', {
+  //   name: 'status',
+ //    type: 'enum',
+  //   enum: Status,
+  //   default: Status.notReviewed,
+  //   //nullable: true,
+  // })
+  // @Field(() => Status)
+  // status: Status
 
-  @ManyToMany(type => Basket)
+  @ManyToMany(() => Basket)
   @JoinTable()
-  baskets: Basket[];
+  @Field(() => [Basket], { nullable: true })
+  baskets: Promise<Basket[]>
 
-  @CreateDateColumn({type: 'timestamp'})
-  createdAt: Date;
 
-  @UpdateDateColumn({type: 'timestamp'})
-  updateAt: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  @Field()
+  createdAt: Date
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  @Field()
+  updatedAt: Date
 }

@@ -1,56 +1,86 @@
 import {
-  Column, CreateDateColumn,
-  Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 import { Basket } from './basket.entity'
 import { Favorite } from './favorite.entity'
+import { Group } from '../../src/types/account.types'
+import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @Entity()
+@ObjectType()
 export class Account {
-  @PrimaryGeneratedColumn({name: 'id_account'})
-  id: number;
+  constructor(
+    partial?: Partial<Account>,
+  ) {
+    Object.assign(this, partial)
+  }
 
-  @Column({ nullable: false })
-  name: string;
+  @PrimaryGeneratedColumn({ name: 'id_account' })
+  @Field(() => Int)
+  id: number
 
-  @Column({ nullable: false })
-  surname: string;
+  @Column()
+  @Field()
+  name: string
 
-  @Column({ nullable: false })
-  patronymic: string;
+  @Column()
+  @Field()
+  surname: string
 
-  @Column({ nullable: false, unique: true })
-  login: string;
+  @Column()
+  @Field()
+  patronymic: string
+
+  @Column({ unique: true })
+  @Field()
+  login: string
 
   @Column({ nullable: true })
-  password: string;
+  @Field({ nullable: true })
+  password: string
 
   @Column({ nullable: true })
-  contacts: string;
+  @Field({ nullable: true })
+  contacts: string
 
   @Column({ nullable: true })
-  address: string;
+  @Field({ nullable: true })
+  address: string
 
   @Column({ nullable: true })
-  photo_src: string;
+  @Field({ nullable: true })
+  photo_src: string
 
-  @Column("enum", {
-    name: "group",
-    enum: ["New buyer", "Rare buyer", "Frequent buyer", "VIP"],
-    default: "New buyer",
-    nullable: true
-  })
-  group: "New buyer" | "Rare buyer" | "Frequent buyer" | "VIP";
+  // @Column({
+  //   name: 'group',
+  //   type: 'enum',
+  //   enum: Group,
+  //   default: Group.NewBuyer,
+  //   nullable: true,
+  // })
+  // @Field(() => Group)
+  // group: Group
 
-  @OneToMany(() => Basket, (basket) => basket.account, {onDelete: 'CASCADE'})
-  baskets: Basket[]
 
-  @OneToMany(() => Favorite, (favorite) => favorite.account, {onDelete: 'CASCADE'})
-  favorites: Favorite[]
+  @OneToMany(() => Basket, (basket) => basket.account, { onDelete: 'CASCADE' })
+  @Field(() => [Basket], { nullable: true })
+  baskets: Promise<Basket[]>
 
-  @CreateDateColumn({type: 'timestamp'})
-  createdAt: Date;
+  @OneToMany(() => Favorite, (favorite) => favorite.account, { onDelete: 'CASCADE' })
+  @Field(() => [Favorite], { nullable: true })
+  favorites: Promise<Favorite[]>
 
-  @UpdateDateColumn({type: 'timestamp'})
-  updateAt: Date;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  @Field()
+  createdAt: Date
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  @Field()
+  updateAt: Date
 }

@@ -1,5 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql'
-import { IsNotEmpty, MinLength } from 'class-validator'
+import { IsEnum, IsNotEmpty, MinLength } from 'class-validator'
+// import { Group } from '../types/account.types'
 
 @InputType()
 export class CategoryAddInput {
@@ -9,8 +10,14 @@ export class CategoryAddInput {
   title: string
 
   @Field({ nullable: true })
+    //@IsNotEmpty()
   description: string
 
   @Field({ nullable: true })
   photo_src: string
+
+  // @Field(() => Group)
+  // @IsNotEmpty()
+  // @IsEnum(Group)
+  // group: Group
 }

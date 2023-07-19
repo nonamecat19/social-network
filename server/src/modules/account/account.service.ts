@@ -16,31 +16,31 @@ export class AccountService {
   ) {
   }
 
-  async create(createAccountDto: CreateAccountDto) {
-    const existAccount = await this.accountRepository.findOne({
-      where: {
-        login: createAccountDto.login,
-      },
-    })
-
-    if (existAccount) throw new BadRequestException('This login (email) already exist!')
-
-    const account = await this.accountRepository.save({
-      name: createAccountDto.name,
-      surname: createAccountDto.surname,
-      patronymic: createAccountDto.patronymic,
-      login: createAccountDto.login,
-      password: createAccountDto.password,
-      contacts: createAccountDto.contacts,
-      address: createAccountDto.address,
-      photo_src: createAccountDto.photo_src,
-      group: createAccountDto.group,
-    })
-
-    const token = this.jwrService.sign({ login: createAccountDto.login })
-
-    return { account, token }
-  }
+  // async create(createAccountDto: CreateAccountDto) {
+  //   const existAccount = await this.accountRepository.findOne({
+  //     where: {
+  //       login: createAccountDto.login,
+  //     },
+  //   })
+  //
+  //   if (existAccount) throw new BadRequestException('This login (email) already exist!')
+  //
+  //   const account = await this.accountRepository.save({
+  //     name: createAccountDto.name,
+  //     surname: createAccountDto.surname,
+  //     patronymic: createAccountDto.patronymic,
+  //     login: createAccountDto.login,
+  //     password: createAccountDto.password,
+  //     contacts: createAccountDto.contacts,
+  //     address: createAccountDto.address,
+  //     photo_src: createAccountDto.photo_src,
+  //     group: createAccountDto.group,
+  //   })
+  //
+  //   const token = this.jwrService.sign({ login: createAccountDto.login })
+  //
+  //   return { account, token }
+  // }
 
   // findAll() {
   //   return `This action returns all account`

@@ -6,7 +6,9 @@ import { Category } from '../../../db/entities'
 import { CategoryResolver } from './category.resolver'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])] ,
+  imports: [
+    TypeOrmModule.forFeature([Category])
+   ] ,
   controllers: [CategoryController],
   providers: [
     CategoryService,
