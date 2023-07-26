@@ -27,7 +27,7 @@ export class Product {
   id: number
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   name: string
 
   @Column({ nullable: true })
@@ -46,19 +46,18 @@ export class Product {
   @Field()
   count: number
 
-  // @Column()
-  // SEO_atributs: string;
-
 
   @ManyToOne(() => Category, (category) => category.products)
   @JoinColumn({name: 'id_category'})
-  @Field(() => [Category], { nullable: true })
-  category: Promise<Category[]> | null
+  @Field(() => Category, { nullable: true })
+  category: Promise<Category>
+  //| null
 
   @ManyToOne(() => Producer, (producer) => producer.products)
   @JoinColumn({name: 'id_producer'})
-  @Field(() => [Producer], { nullable: true })
-  producer: Promise<Producer[]> | null
+  @Field(() => Producer, { nullable: true })
+  producer: Promise<Producer>
+  //| null
 
   @OneToMany(() => Basket, (basket) => basket.product, {onDelete: 'CASCADE'})
   baskets: Basket[]
@@ -75,3 +74,7 @@ export class Product {
   @Field()
   updatedAt: Date
 }
+
+// @Column()
+// SEO_atributs: string;
+

@@ -19,7 +19,7 @@ export class BasketResolver {
     return await this.basketRepository.find()
   }
 
-  @Query(() => Basket)
+  @Query(() => Basket, { description: '---' })
   public async basket(
     @Args('id', { type: () => Int })
       id: number,
@@ -56,7 +56,7 @@ export class BasketResolver {
     )
   }
 
-  @Mutation(() => EntityWithId, { name: 'basketDelete' })
+  @Mutation(() => EntityWithId, { name: 'basketDelete', description: '---' })
   public async delete(
     @Args('id', { type: () => Int })
       id: number,

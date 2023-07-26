@@ -19,7 +19,7 @@ export class FavoriteResolver {
     return await this.favoriteRepository.find()
   }
 
-  @Query(() => Favorite)
+  @Query(() => Favorite, { description: '---' })
   public async favorite(
     @Args('id', { type: () => Int })
       id: number,
@@ -56,7 +56,7 @@ export class FavoriteResolver {
     )
   }
 
-  @Mutation(() => EntityWithId, { name: 'favoriteDelete' })
+  @Mutation(() => EntityWithId, { name: 'favoriteDelete', description: '---' })
   public async delete(
     @Args('id', { type: () => Int })
       id: number,

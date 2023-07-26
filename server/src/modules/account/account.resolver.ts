@@ -19,7 +19,7 @@ export class AccountResolver {
     return await this.accountRepository.find()
   }
 
-  @Query(() => Account)
+  @Query(() => Account, { description: '---' })
   public async account(
     @Args('id', { type: () => Int })
       id: number,
@@ -31,7 +31,7 @@ export class AccountResolver {
     })
   }
 
-  @Mutation(() => Account, { name: 'accountAdd' })
+  @Mutation(() => Account, { name: 'accountAdd'})
   public async add(
     @Args('input', { type: () => AccountAddInput })
       input: AccountAddInput,
@@ -57,7 +57,7 @@ export class AccountResolver {
     )
   }
 
-  @Mutation(() => EntityWithId, { name: 'accountDelete' })
+  @Mutation(() => EntityWithId, { name: 'accountDelete', description: '---'})
   public async delete(
     @Args('id', { type: () => Int })
       id: number,

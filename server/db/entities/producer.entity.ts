@@ -34,7 +34,8 @@ export class Producer {
 
 
   @OneToMany(() => Product, (product) => product.producer, { onDelete: 'SET NULL' })
-  products: Product[]
+  @Field(() => [Product], { nullable: true })
+  products: Promise<Product[]>
 
 
   @CreateDateColumn({ type: 'timestamp' })

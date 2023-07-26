@@ -19,7 +19,7 @@ export class CategoryResolver {
     return await this.categoryRepository.find()
   }
 
-  @Query(() => Category)
+  @Query(() => Category, { description: '---' })
   public async category(
     @Args('id', { type: () => Int })
       id: number,
@@ -57,7 +57,7 @@ export class CategoryResolver {
     )
   }
 
-  @Mutation(() => EntityWithId, { name: 'categoryDelete' })
+  @Mutation(() => EntityWithId, { name: 'categoryDelete', description: '---' })
   public async delete(
     @Args('id', { type: () => Int })
       id: number,
@@ -68,9 +68,10 @@ export class CategoryResolver {
       },
     })
     await this.categoryRepository.remove(category)
-
     return new EntityWithId(id)
   }
+
+
 }
 
 

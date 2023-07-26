@@ -3,7 +3,7 @@ import { Field, InputType, Int } from '@nestjs/graphql'
 @InputType()
 export class ProductAddInput{
 
-  @Field()
+  @Field({ nullable: true })
   name: string
 
   @Field({ nullable: true })

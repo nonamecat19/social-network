@@ -19,7 +19,7 @@ export class OrderResolver {
     return await this.orderRepository.find()
   }
 
-  @Query(() => Order)
+  @Query(() => Order, { description: '---' })
   public async order(
     @Args('id', { type: () => Int })
       id: number,
@@ -57,7 +57,7 @@ export class OrderResolver {
     )
   }
 
-  @Mutation(() => EntityWithId, { name: 'orderDelete' })
+  @Mutation(() => EntityWithId, { name: 'orderDelete', description: '---' })
   public async delete(
     @Args('id', { type: () => Int })
       id: number,
