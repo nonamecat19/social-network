@@ -14,5 +14,8 @@ export default {
     database: configService.get('DB_NAME'),
     entities: Object.values(Entities),
     synchronize: true,
+    ssl: {
+      ca: process.env.SSL_CERT,
+    },
   } as TypeOrmModuleOptions),
 }

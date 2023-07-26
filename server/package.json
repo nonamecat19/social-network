@@ -18,9 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:generate:dev": "ts-node ./node_modules/typeorm/cli migration:generate -d db/dataSource.ts",
-    "migrate:dev": "ts-node ./node_modules/typeorm/cli migration:run -d db/dataSource.ts",
-    "migrate:undo:dev": "ts-node ./node_modules/typeorm/cli migration:revert -d db/dataSource.ts"
+    "migration:generate:dev": "ts-node ./node_modules/typeorm/cli migration:generate -d ./src/common/configs/postgres.config.ts",
+    "migrate:dev": "ts-node ./node_modules/typeorm/cli migration:run -d ./src/common/configs/postgres.config.ts",
+    "migrate:undo:dev": "ts-node ./node_modules/typeorm/cli migration:revert -d ./src/common/configs/postgres.config.ts"
   },
   "dependencies": {
     "@nestjs/apollo": "^12.0.7",
