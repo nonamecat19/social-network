@@ -13,7 +13,7 @@ export class AuthService {
   }
 
   async validateAccount(login: string, password: string) {
-    const account = await this.accountService.findOne(login)
+    const account = await this.accountService.findAccount(login)
 
     //const passwordIsMatch = await (порівняти переданий пароль з захешованим в бд)
     const passwordIsMatch = await this.accountService.findOneByPass(login, password)

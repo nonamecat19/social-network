@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBasketDto } from './dto/create-basket.dto';
-import { UpdateBasketDto } from './dto/update-basket.dto';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Basket } from '../../../db/entities'
+import { Repository } from 'typeorm'
+import { BasketEditInput } from '../../graphql-input/basket-edit.input'
+import { EntityWithId } from '../../types/delete-id.types'
+import { BasketAddInput } from '../../graphql-input/basket-add.input'
 
 @Injectable()
 export class BasketService {
-  create(createBasketDto: CreateBasketDto) {
-    return 'This action adds a new basket';
+  constructor(
+    @InjectRepository(Basket)
+    private readonly basketRepository: Repository<Basket>,
+  ) {
   }
 
-  findAll() {
-    return `This action returns all basket`;
+  async findAll() {
+    return await this.basketRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} basket`;
+  async findOne(id: number) {
+    return await this.basketRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    })
   }
 
-  update(id: number, updateBasketDto: UpdateBasketDto) {
-    return `This action updates a #${id} basket`;
+  async create(input: BasketAddInput) {
+    return await this.basketRepository.save(input)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} basket`;
+  async update(id: number, input: BasketEditInput) {
+    const basket = await this.findOne(id)
+    return await this.basketRepository.save(
+      new Basket(Object.assign(basket, input)),
+    )
   }
+
+  async remove(id: number) {
+    const basket = await this.findOne(id)
+    await this.basketRepository.remove(basket)
+    return new EntityWithId(id)
+  }
+
 }

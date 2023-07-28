@@ -5,48 +5,34 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Account } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { JwtService } from '@nestjs/jwt'
+import { AccountAddInput } from '../../graphql-input/account-add.input'
+import { AccountEditInput } from '../../graphql-input/account-edit.input'
+import { EntityWithId } from '../../types/delete-id.types'
 
 //import  argon2  from 'argon2'
 
 @Injectable()
 export class AccountService {
   constructor(
-    @InjectRepository(Account) private readonly accountRepository: Repository<Account>,
-    private  readonly jwrService: JwtService
+    @InjectRepository(Account)
+    private readonly accountRepository: Repository<Account>,
+    private readonly jwrService: JwtService,
   ) {
   }
 
-  // async create(createAccountDto: CreateAccountDto) {
-  //   const existAccount = await this.accountRepository.findOne({
-  //     where: {
-  //       login: createAccountDto.login,
-  //     },
-  //   })
-  //
-  //   if (existAccount) throw new BadRequestException('This login (email) already exist!')
-  //
-  //   const account = await this.accountRepository.save({
-  //     name: createAccountDto.name,
-  //     surname: createAccountDto.surname,
-  //     patronymic: createAccountDto.patronymic,
-  //     login: createAccountDto.login,
-  //     password: createAccountDto.password,
-  //     contacts: createAccountDto.contacts,
-  //     address: createAccountDto.address,
-  //     photo_src: createAccountDto.photo_src,
-  //     group: createAccountDto.group,
-  //   })
-  //
-  //   const token = this.jwrService.sign({ login: createAccountDto.login })
-  //
-  //   return { account, token }
-  // }
+  async findAll(): Promise<Account[]> {
+    return await this.accountRepository.find()
+  }
 
-  // findAll() {
-  //   return `This action returns all account`
-  // }
+  async findOne(id: number): Promise<Account> {
+    return await this.accountRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    })
+  }
 
-  async findOne(login: string) {
+  async findAccount(login: string) {
     return await this.accountRepository.findOne({
       where: {
         login: login,
@@ -54,7 +40,7 @@ export class AccountService {
     })
   }
 
-  //тимчасова штука для реєстрації
+  //тимчасова функція для реєстрації
   async findOneByPass(login: string, password: string) {
     return await this.accountRepository.findOne({
       where: {
@@ -64,11 +50,28 @@ export class AccountService {
     })
   }
 
-  // update(id: number, updateAccountDto: UpdateAccountDto) {
-  //   return `This action updates a #${id} account`
-  // }
-  //
-  // remove(id: number) {
-  //   return `This action removes a #${id} account`
-  // }
+  async update(id: number, input: AccountEditInput) {
+    const account = await this.findOne(id)
+    return await this.accountRepository.save(
+      new Account(Object.assign(account, input)),
+    )
+  }
+
+  async remove(id: number) {
+    const account = await this.findOne(id)
+    await this.accountRepository.remove(account)
+    return new EntityWithId(id)
+  }
+
+  async create(//createAccountDto: CreateAccountDto,
+    input: AccountAddInput): Promise<Account> {
+    const existAccount = await this.findAccount(input.login)
+    if (existAccount) {
+      throw new BadRequestException('This login (email) already exist!')
+    }
+    //const account: Account = await this.accountRepository.save(input)
+    const token = this.jwrService.sign({ login: input.login })
+    //return { account, token }
+    return await this.accountRepository.save(input)
+  }
 }

@@ -5,70 +5,44 @@ import { Repository } from 'typeorm'
 import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEditInput } from '../../graphql-input/basket-edit.input'
 import { EntityWithId } from '../../types/basket.types'
+import { BasketService } from './basket.service'
 
 @Resolver(() => Basket)
 export class BasketResolver {
   constructor(
     @InjectRepository(Basket)
     private readonly basketRepository: Repository<Basket>,
+    private readonly basketService: BasketService,
   ) {
   }
 
   @Query(() => [Basket])
   public async baskets(): Promise<Basket[]> {
-    return await this.basketRepository.find()
+    return await this.basketService.findAll()
   }
 
   @Query(() => Basket, { description: '---' })
   public async basket(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<Basket> {
-    return await this.basketRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
+    @Args('id', { type: () => Int }) id: number): Promise<Basket> {
+    return await this.basketService.findOne(id)
   }
 
   @Mutation(() => Basket, { name: 'basketAdd' })
   public async add(
-    @Args('input', { type: () => BasketAddInput })
-      input: BasketAddInput,
-  ): Promise<Basket> {
-    return await this.basketRepository.save(input) // (new Category(input))
+    @Args('input', { type: () => BasketAddInput }) input: BasketAddInput): Promise<Basket> {
+    return await this.basketService.create(input)
   }
 
   @Mutation(() => Basket, { name: 'basketEdit' })
   public async edit(
-    @Args('id', { type: () => Int })
-      id: number,
-    @Args('input', { type: () => BasketEditInput })
-      input: BasketEditInput,
-  ): Promise<Basket> {
-    const basket = await this.basketRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    return await this.basketRepository.save(
-      new Basket(Object.assign(basket, input)),
-    )
+    @Args('id', { type: () => Int }) id: number,
+    @Args('input', { type: () => BasketEditInput }) input: BasketEditInput): Promise<Basket> {
+    return await this.basketService.update(id, input)
   }
 
   @Mutation(() => EntityWithId, { name: 'basketDelete', description: '---' })
   public async delete(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<EntityWithId> {
-    const basket = await this.basketRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    await this.basketRepository.remove(basket)
-
-    return new EntityWithId(id)
+    @Args('id', { type: () => Int }) id: number): Promise<EntityWithId> {
+    return await this.basketService.remove(id)
   }
-
 }

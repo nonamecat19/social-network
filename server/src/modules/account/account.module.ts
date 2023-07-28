@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { AccountService } from './account.service'
-import { AccountController } from './account.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Account } from '../../../db/entities'
 import { JwtModule } from '@nestjs/jwt'
@@ -19,7 +18,6 @@ import { AccountResolver } from './account.resolver'
       inject: [ConfigService],
     }),
   ],
-  controllers: [AccountController],
   providers: [
     AccountService,
     AccountResolver

@@ -5,70 +5,44 @@ import { Repository } from 'typeorm'
 import { OrderAddInput } from '../../graphql-input/order-add.input'
 import { OrderEditInput } from '../../graphql-input/order-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
+import { OrderService } from './order.service'
 
 @Resolver(() => Order)
 export class OrderResolver {
   constructor(
     @InjectRepository(Order)
     private readonly orderRepository: Repository<Order>,
+    private readonly orderService: OrderService,
   ) {
   }
 
   @Query(() => [Order])
   public async orders(): Promise<Order[]> {
-    return await this.orderRepository.find()
+    return await this.orderService.findAll()
   }
 
   @Query(() => Order, { description: '---' })
   public async order(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<Order> {
-    return await this.orderRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
+    @Args('id', { type: () => Int }) id: number): Promise<Order> {
+    return await this.orderService.findOne(id)
   }
 
   @Mutation(() => Order, { name: 'orderAdd' })
   public async add(
-    @Args('input', { type: () => OrderAddInput })
-      input: OrderAddInput,
-  ): Promise<Order> {
-    return await this.orderRepository.save(input)
+    @Args('input', { type: () => OrderAddInput }) input: OrderAddInput): Promise<Order> {
+    return await this.orderService.create(input)
   }
-
 
   @Mutation(() => Order, { name: 'orderEdit' })
   public async edit(
-    @Args('id', { type: () => Int })
-      id: number,
-    @Args('input', { type: () => OrderEditInput })
-      input: OrderEditInput,
-  ): Promise<Order> {
-    const order = await this.orderRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    return await this.orderRepository.save(
-      new Order(Object.assign(order, input)),
-    )
+    @Args('id', { type: () => Int }) id: number,
+    @Args('input', { type: () => OrderEditInput }) input: OrderEditInput): Promise<Order> {
+    return await this.orderService.update(id, input)
   }
 
   @Mutation(() => EntityWithId, { name: 'orderDelete', description: '---' })
   public async delete(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<EntityWithId> {
-    const order = await this.orderRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    await this.orderRepository.remove(order)
-
-    return new EntityWithId(id)
+    @Args('id', { type: () => Int }) id: number): Promise<EntityWithId> {
+    return await this.orderService.remove(id)
   }
 }

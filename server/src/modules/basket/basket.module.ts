@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { BasketService } from './basket.service';
-import { BasketController } from './basket.controller';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Basket } from '../../../db/entities'
 
@@ -8,7 +7,6 @@ import { Basket } from '../../../db/entities'
   imports: [
     TypeOrmModule.forFeature([Basket])
   ] ,
-  controllers: [BasketController],
   providers: [
     BasketService,
     // BasketResolver

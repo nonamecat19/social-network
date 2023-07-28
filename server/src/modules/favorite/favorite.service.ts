@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFavoriteDto } from './dto/create-favorite.dto';
-import { UpdateFavoriteDto } from './dto/update-favorite.dto';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Favorite } from '../../../db/entities'
+import { Repository } from 'typeorm'
+import { EntityWithId } from '../../types/delete-id.types'
+import { FavoriteAddInput } from '../../graphql-input/favorite-add.input'
+import { FavoriteEditInput } from '../../graphql-input/favorite-edit.input'
 
 @Injectable()
 export class FavoriteService {
-  create(createFavoriteDto: CreateFavoriteDto) {
-    return 'This action adds a new favorite';
+  constructor(
+    @InjectRepository(Favorite)
+    private readonly favoriteRepository: Repository<Favorite>,
+  ) {
   }
 
-  findAll() {
-    return `This action returns all favorite`;
+  async findAll() {
+    return await this.favoriteRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} favorite`;
+  async findOne(id: number) {
+    return await this.favoriteRepository.findOneOrFail({
+      where: {
+        id,
+      },
+    })
   }
 
-  update(id: number, updateFavoriteDto: UpdateFavoriteDto) {
-    return `This action updates a #${id} favorite`;
+  async create(input: FavoriteAddInput) {
+    return await this.favoriteRepository.save(input)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} favorite`;
+  async update(id: number, input: FavoriteEditInput) {
+    const favorite = await this.findOne(id)
+    return await this.favoriteRepository.save(
+      new Favorite(Object.assign(favorite, input)),
+    )
+  }
+
+  async remove(id: number) {
+    const favorite = await this.findOne(id)
+    await this.favoriteRepository.remove(favorite)
+    return new EntityWithId(id)
   }
 }

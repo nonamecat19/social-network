@@ -28,7 +28,7 @@ export class AccountAddInput{
   @Field({ nullable: true })
   photo_src: string
 
-  @Field({ nullable: true })
-  group: Group
+  // @Field({ nullable: true })
+  // group: Group
 
 }
