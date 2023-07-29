@@ -1,11 +1,12 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Basket } from '../../../db/entities'
+import { Account, Basket, Category, Producer, Product } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEditInput } from '../../graphql-input/basket-edit.input'
-import { EntityWithId } from '../../types/basket.types'
+import { EntityWithId } from '../../types/delete-id.types'
 import { BasketService } from './basket.service'
+import { BasketEntity } from '../../types/basket.types'
 
 @Resolver(() => Basket)
 export class BasketResolver {
@@ -15,6 +16,17 @@ export class BasketResolver {
     private readonly basketService: BasketService,
   ) {
   }
+
+  @ResolveField(() => Account)
+  async category(@Parent() basket: Basket): Promise<Account> {
+    return await basket.account
+  }
+
+  @ResolveField(() => Product)
+  async producer(@Parent() basket: Basket): Promise<Product> {
+    return await basket.product
+  }
+
 
   @Query(() => [Basket])
   public async baskets(): Promise<Basket[]> {
@@ -40,9 +52,9 @@ export class BasketResolver {
     return await this.basketService.update(id, input)
   }
 
-  @Mutation(() => EntityWithId, { name: 'basketDelete', description: '---' })
+  @Mutation(() => BasketEntity, { name: 'basketDelete', description: '---' })
   public async delete(
-    @Args('id', { type: () => Int }) id: number): Promise<EntityWithId> {
+    @Args('id', { type: () => Int }) id: number): Promise<BasketEntity> {
     return await this.basketService.remove(id)
   }
 }

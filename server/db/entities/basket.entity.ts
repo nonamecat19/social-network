@@ -24,14 +24,14 @@ export class Basket {
   @Field(() => Int)
   id: number
 
-  @Column({ default: 1 })
-  @Field()
+  @Column()
+  @Field(() => Int, { defaultValue: 1 })
   quantity: number
 
 
   @ManyToOne(() => Account, (account) => account.baskets)
   @JoinColumn({ name: 'id_account' })
-  @Field(() => Account, { nullable: true })
+  @Field(() => Account)
   account: Promise<Account>
 
   @ManyToOne(() => Product, (product) => product.baskets)
