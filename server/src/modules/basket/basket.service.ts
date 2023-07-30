@@ -5,13 +5,14 @@ import { Repository } from 'typeorm'
 import { BasketEditInput } from '../../graphql-input/basket-edit.input'
 import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEntity } from '../../types/basket.types'
-import { ErrorCodes, ErrorDescriptionsArray } from '../../common/statusCodes'
+import { ErrorsService } from '../../common/errors.service'
 
 @Injectable()
 export class BasketService {
   constructor(
     @InjectRepository(Basket)
     private readonly basketRepository: Repository<Basket>,
+    private readonly errorsService: ErrorsService,
   ) {
   }
 
@@ -20,66 +21,50 @@ export class BasketService {
   }
 
   async findOne(id: number) {
-    let basket = await this.basketRepository.findOne({
+    let object = await this.basketRepository.findOne({
       where: {
         id,
       },
     })
-    if (!basket) {
-      console.log(ErrorDescriptionsArray[ErrorCodes.DataNotFound])
-      throw new BadRequestException(ErrorCodes.DataNotFound)//запис не знайдено//Запис з вказаним id (' + { id } + ') не знайдено.
-    }
-    return basket
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
   async create(input: BasketAddInput) {
     const { accountId, productId, ...basketData } = input
-
-    if (!accountId || !productId) { //хоча в цьому методі перевірки не потрібні, бо сюди має 100% приходити числа, проте це чомусь не так
-      console.log(ErrorDescriptionsArray[ErrorCodes.IdNullError])
-      throw new BadRequestException(ErrorCodes.IdNullError) //id були null
-    }
-
+    await this.errorsService.ErrorIdNullError(accountId, productId)
     await this.IsProductInBasket(accountId, productId)
-
-    const basket = new Basket(basketData)
-    basket.account = Promise.resolve({ id: accountId } as Account)
-    basket.product = Promise.resolve({ id: productId } as Product)
+    const object = new Basket(basketData)
+    object.account = Promise.resolve({ id: accountId } as Account)
+    object.product = Promise.resolve({ id: productId } as Product)
 
     try {
-      return await this.basketRepository.save(basket)
+      return await this.basketRepository.save(object)
     } catch (e) {
-      //console.log(e)
-      console.log(ErrorDescriptionsArray[ErrorCodes.RelationshipError])
-      throw new BadRequestException(ErrorCodes.RelationshipError)
+      await this.errorsService.ErrorRelationshipError()
     }
   }
 
   async update(id: number, input: BasketEditInput) {
-    const basket = await this.findOne(id)
+    const object = await this.findOne(id)
     return await this.basketRepository.save(
-      new Basket(Object.assign(basket, input)),
+      new Basket(Object.assign(object, input)),
     )
   }
 
   async remove(id: number) {
-    const basket = await this.findOne(id)
-    await this.basketRepository.remove(basket)
+    const object = await this.findOne(id)
+    await this.basketRepository.remove(object)
     return new BasketEntity(id)
   }
 
-
   async IsProductInBasket(accountId: number, productId: number) {
-    const basket = await this.basketRepository.findOne({
+    const object = await this.basketRepository.findOne({
       where: {
         account: { id: accountId },
         product: { id: productId },
       },
     })
-    if (basket) {
-      console.log(ErrorDescriptionsArray[ErrorCodes.DataAlreadyExists])
-      throw new BadRequestException(ErrorCodes.DataAlreadyExists)//запис вже існує
-    }
+    await this.errorsService.ErrorDataAlreadyExists(object)
   }
-
 }

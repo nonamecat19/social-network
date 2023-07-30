@@ -5,6 +5,7 @@ import { Account } from '../../../db/entities'
 import { JwtModule } from '@nestjs/jwt'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { AccountResolver } from './account.resolver'
+import { ErrorsService } from '../../common/errors.service'
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { AccountResolver } from './account.resolver'
   ],
   providers: [
     AccountService,
-    AccountResolver
+    AccountResolver,
+    ErrorsService
   ],
   exports: [AccountService], // експортується для того щоб можна було використовувати в auth модулі
 })

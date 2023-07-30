@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt'
 import { AccountAddInput } from '../../graphql-input/account-add.input'
 import { AccountEditInput } from '../../graphql-input/account-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
+import { ErrorsService } from '../../common/errors.service'
 
 //import  argon2  from 'argon2'
 
@@ -17,6 +18,7 @@ export class AccountService {
     @InjectRepository(Account)
     private readonly accountRepository: Repository<Account>,
     private readonly jwrService: JwtService,
+    private readonly errorsService: ErrorsService,
   ) {
   }
 
@@ -25,11 +27,13 @@ export class AccountService {
   }
 
   async findOne(id: number): Promise<Account> {
-    return await this.accountRepository.findOneOrFail({
+    let object = await this.accountRepository.findOne({
       where: {
         id,
       },
     })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
   async findAccount(login: string) {
@@ -51,27 +55,33 @@ export class AccountService {
   }
 
   async update(id: number, input: AccountEditInput) {
-    const account = await this.findOne(id)
+    const object = await this.findOne(id)
     return await this.accountRepository.save(
-      new Account(Object.assign(account, input)),
+      new Account(Object.assign(object, input)),
     )
   }
 
   async remove(id: number) {
-    const account = await this.findOne(id)
-    await this.accountRepository.remove(account)
+    const object = await this.findOne(id)
+    await this.accountRepository.remove(object)
     return new EntityWithId(id)
   }
 
   async create(//createAccountDto: CreateAccountDto,
     input: AccountAddInput): Promise<Account> {
-    const existAccount = await this.findAccount(input.login)
-    if (existAccount) {
-      throw new BadRequestException('This login (email) already exist!')
-    }
+    await this.IsAccountExist(input)
+
     //const account: Account = await this.accountRepository.save(input)
     const token = this.jwrService.sign({ login: input.login })
     //return { account, token }
     return await this.accountRepository.save(input)
   }
+
+  async IsAccountExist(input) {
+    const existAccount = await this.findAccount(input.login)
+    if (existAccount) {
+      throw new BadRequestException('This login (email) already exist!')
+    }
+  }
+
 }

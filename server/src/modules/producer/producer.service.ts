@@ -5,12 +5,14 @@ import { Repository } from 'typeorm'
 import { ProducerEditInput } from '../../graphql-input/producer-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
 import { ProducerAddInput } from '../../graphql-input/producer-add.input'
+import { ErrorsService } from '../../common/errors.service'
 
 @Injectable()
 export class ProducerService {
   constructor(
     @InjectRepository(Producer)
     private readonly producerRepository: Repository<Producer>,
+    private readonly errorsService: ErrorsService,
   ) {
   }
 
@@ -19,22 +21,17 @@ export class ProducerService {
   }
 
   async findOne(id: number) {
-    return await this.producerRepository.findOneOrFail({
+    let object = await this.producerRepository.findOne({
       where: {
         id,
       },
     })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
   async create(input: ProducerAddInput) {
-    const isExist = await this.producerRepository.findBy({
-      name: input.name,
-    })
-
-    if (isExist.length) {
-      throw new BadRequestException('This category already exist!')
-    }
-
+    await this.IsCategoryExist(input)
     return await this.producerRepository.save(input)
   }
 
@@ -49,5 +46,14 @@ export class ProducerService {
     const producer = await this.findOne(id)
     await this.producerRepository.remove(producer)
     return new EntityWithId(id)
+  }
+
+  async IsCategoryExist(input) {
+    const isExist = await this.producerRepository.findBy({
+      name: input.name,
+    })
+    if (isExist.length) {
+      throw new BadRequestException('This producer already exist!')
+    }
   }
 }

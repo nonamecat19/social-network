@@ -5,7 +5,6 @@ import { Repository } from 'typeorm'
 import { CategoryAddInput } from '../../graphql-input/category-add.input'
 import { CategoryEditInput } from '../../graphql-input/category-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
-import { AccountService } from '../account/account.service'
 import { CategoryService } from './category.service'
 
 @Resolver(() => Category)

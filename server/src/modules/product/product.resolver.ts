@@ -5,7 +5,6 @@ import { Repository } from 'typeorm'
 import { ProductAddInput } from '../../graphql-input/product-add.input'
 import { ProductEditInput } from '../../graphql-input/product-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
-import { BasketService } from '../basket/basket.service'
 import { ProductService } from './product.service'
 
 @Resolver(() => Product)
@@ -37,7 +36,7 @@ export class ProductResolver {
 
   @Query(() => Product, { description: '---' })
   public async product(
-    @Args('id', { type: () => Int }) id: number,): Promise<Product> {
+    @Args('id', { type: () => Int }) id: number): Promise<Product> {
     return await this.productService.findOne(id)
   }
 
@@ -50,13 +49,13 @@ export class ProductResolver {
   @Mutation(() => Product, { name: 'productEdit' })
   public async edit(
     @Args('id', { type: () => Int }) id: number,
-    @Args('input', { type: () => ProductEditInput }) input: ProductEditInput,): Promise<Product> {
+    @Args('input', { type: () => ProductEditInput }) input: ProductEditInput): Promise<Product> {
     return await this.productService.update(id, input)
   }
 
   @Mutation(() => EntityWithId, { name: 'productDelete', description: '---' })
   public async delete(
-    @Args('id', { type: () => Int }) id: number,): Promise<EntityWithId> {
+    @Args('id', { type: () => Int }) id: number): Promise<EntityWithId> {
     return await this.productService.remove(id)
   }
 }

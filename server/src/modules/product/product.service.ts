@@ -5,12 +5,14 @@ import { Repository } from 'typeorm'
 import { EntityWithId } from '../../types/delete-id.types'
 import { ProductEditInput } from '../../graphql-input/product-edit.input'
 import { ProductAddInput } from '../../graphql-input/product-add.input'
+import { ErrorsService } from '../../common/errors.service'
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly errorsService: ErrorsService,
   ) {
   }
 
@@ -19,37 +21,39 @@ export class ProductService {
   }
 
   async findOne(id: number) {
-    return await this.productRepository.findOneOrFail({
+    let object = await this.productRepository.findOne({
       where: {
         id,
       },
     })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
   async create(input: ProductAddInput) {
     const { categoryId, producerId, ...productData } = input
-    const product = new Product(productData)
-    if (categoryId) {
-      product.category = Promise.resolve({ id: categoryId } as Category)
-    }
-    if (producerId) {
-      product.producer = Promise.resolve({ id: producerId } as Producer)
-    }
+    const object = new Product(productData)
+    await this.errorsService.ErrorIdNullError(categoryId, producerId)
+    object.category = Promise.resolve({ id: categoryId } as Category)
+    object.producer = Promise.resolve({ id: producerId } as Producer)
 
-    //console.log(product)
-    return await this.productRepository.save(product)
+    try {
+      return await this.productRepository.save(object)
+    } catch (e) {
+      await this.errorsService.ErrorRelationshipError()
+    }
   }
 
   async update(id: number, input: ProductEditInput) {
-    const product = await this.findOne(id)
+    const object = await this.findOne(id)
     return await this.productRepository.save(
-      new Product(Object.assign(product, input)),
+      new Product(Object.assign(object, input)),
     )
   }
 
   async remove(id: number) {
-    const product = await this.findOne(id)
-    await this.productRepository.remove(product)
+    const object = await this.findOne(id)
+    await this.productRepository.remove(object)
     return new EntityWithId(id)
   }
 }

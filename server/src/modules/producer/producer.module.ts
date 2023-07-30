@@ -3,6 +3,7 @@ import { ProducerService } from './producer.service'
 import { ProducerResolver } from './producer.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Producer } from '../../../db/entities'
+import { ErrorsService } from '../../common/errors.service'
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { Producer } from '../../../db/entities'
   providers: [
     ProducerService,
     ProducerResolver,
+    ErrorsService
   ],
 })
 export class ProducerModule {

@@ -3,6 +3,7 @@ import { CategoryService } from './category.service';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Category } from '../../../db/entities'
 import { CategoryResolver } from './category.resolver'
+import { ErrorsService } from '../../common/errors.service'
 
 @Module({
   imports: [
@@ -10,7 +11,8 @@ import { CategoryResolver } from './category.resolver'
    ] ,
   providers: [
     CategoryService,
-    CategoryResolver
+    CategoryResolver,
+    ErrorsService
   ]
 })
 export class CategoryModule {}
