@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Account, Basket, Favorite, Product } from '../../../db/entities'
+import { Account, Favorite, Product } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { EntityWithId } from '../../types/delete-id.types'
 import { FavoriteAddInput } from '../../graphql-input/favorite-add.input'

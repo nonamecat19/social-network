@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Account, Basket, Product } from '../../../db/entities'
 import { Repository } from 'typeorm'
@@ -6,6 +6,23 @@ import { BasketEditInput } from '../../graphql-input/basket-edit.input'
 import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEntity } from '../../types/basket.types'
 import { ErrorsService } from '../../common/errors.service'
+
+const f1 = <T>(id: number) => {
+  return { id } as T
+}
+
+function f2 <T>(id: number) {
+  return Promise.resolve({ id } as T)
+}
+
+function f3 <T>(id: number) {
+  return new Promise((resolve, reject) => {
+    resolve({ id } as T)
+  })
+}
+
+const f4 = (async(id) => ({id}))(123)
+
 
 @Injectable()
 export class BasketService {
@@ -30,13 +47,18 @@ export class BasketService {
     return object
   }
 
+  async f<T>(id: number) {
+    return { id } as T
+  }
+
   async create(input: BasketAddInput) {
     const { accountId, productId, ...basketData } = input
     await this.errorsService.ErrorIdNullError(accountId, productId)
     await this.IsProductInBasket(accountId, productId)
     const object = new Basket(basketData)
-    object.account = Promise.resolve({ id: accountId } as Account)
-    object.product = Promise.resolve({ id: productId } as Product)
+    // object.account = Promise.resolve({ id: accountId } as Account)
+    object.account = this.f<Account>(accountId)
+    object.product = this.f<Product>(productId)
 
     try {
       return await this.basketRepository.save(object)
