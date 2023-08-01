@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql'
 import { Group } from '../types/account.types'
 
 @InputType()
-export class AccountAddInput{
+export class AccountAddInput {
 
   @Field()
   name: string

@@ -48,21 +48,21 @@ export class Product {
 
 
   @ManyToOne(() => Category, (category) => category.products)
-  @JoinColumn({name: 'id_category'})
+  @JoinColumn({ name: 'id_category' })
   @Field(() => Category, { nullable: true })
   category: Promise<Category>
   //| null
 
   @ManyToOne(() => Producer, (producer) => producer.products)
-  @JoinColumn({name: 'id_producer'})
+  @JoinColumn({ name: 'id_producer' })
   @Field(() => Producer, { nullable: true })
   producer: Promise<Producer>
   //| null
 
-  @OneToMany(() => Basket, (basket) => basket.product, {onDelete: 'CASCADE'})
+  @OneToMany(() => Basket, (basket) => basket.product, { onDelete: 'CASCADE' })
   baskets: Basket[]
 
-  @OneToMany(() => Favorite, (favorite) => favorite.product, {onDelete: 'CASCADE'})
+  @OneToMany(() => Favorite, (favorite) => favorite.product, { onDelete: 'CASCADE' })
   favorites: Favorite[]
 
 

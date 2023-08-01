@@ -1,5 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql'
 import { IsEnum, IsNotEmpty, MinLength } from 'class-validator'
+
 // import { Group } from '../types/account.types'
 
 @InputType()

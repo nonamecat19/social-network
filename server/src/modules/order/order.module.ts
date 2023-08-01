@@ -15,5 +15,6 @@ import { ErrorsService } from '../../common/errors.service'
     ErrorsService,
   ],
 })
+
 export class OrderModule {
 }

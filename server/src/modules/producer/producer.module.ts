@@ -12,8 +12,9 @@ import { ErrorsService } from '../../common/errors.service'
   providers: [
     ProducerService,
     ProducerResolver,
-    ErrorsService
+    ErrorsService,
   ],
 })
+
 export class ProducerModule {
 }

@@ -22,9 +22,10 @@ import { ErrorsService } from '../../common/errors.service'
   providers: [
     AccountService,
     AccountResolver,
-    ErrorsService
+    ErrorsService,
   ],
   exports: [AccountService], // експортується для того щоб можна було використовувати в auth модулі
 })
+
 export class AccountModule {
 }
