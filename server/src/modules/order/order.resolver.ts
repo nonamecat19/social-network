@@ -17,7 +17,7 @@ export class OrderResolver {
   }
 
   @Query(() => [Order])
-  public async orders(): Promise<Order[]> {
+  public async allOrders(): Promise<Order[]> {
     return await this.orderService.findAll()
   }
 

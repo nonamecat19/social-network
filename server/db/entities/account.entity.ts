@@ -22,23 +22,23 @@ export class Account {
 
   @PrimaryGeneratedColumn({ name: 'id_account' })
   @Field(() => Int)
-  id: number
+  id!: number
 
   @Column()
   @Field()
-  name: string
+  name!: string
 
   @Column()
   @Field()
-  surname: string
+  surname!: string
 
   @Column()
   @Field()
-  patronymic: string
+  patronymic!: string
 
   @Column({ unique: true })
   @Field()
-  login: string
+  login!: string
 
   @Column({ nullable: true })
   @Field({ nullable: true })
@@ -75,11 +75,11 @@ export class Account {
   favorites: Promise<Favorite[]>
 
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp' }) // @FilterableField(() => GraphQLISODateTime)
   @Field()
-  createdAt: Date
+  createdAt!: Date
 
   @UpdateDateColumn({ type: 'timestamp' })
   @Field()
-  updateAt: Date
+  updateAt!: Date
 }

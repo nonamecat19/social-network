@@ -33,7 +33,8 @@ export class ProductService {
   async create(input: ProductAddInput) {
     const { categoryId, producerId, ...productData } = input
     const object = new Product(productData)
-    await this.errorsService.ErrorIdNullError(categoryId, producerId)
+    await this.errorsService.ErrorIdNullError(categoryId)
+    await this.errorsService.ErrorIdNullError(producerId)
     object.category = Promise.resolve({ id: categoryId } as Category)
     object.producer = Promise.resolve({ id: producerId } as Producer)
 

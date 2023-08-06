@@ -32,7 +32,8 @@ export class FavoriteService {
 
   async create(input: FavoriteAddInput) {
     const { accountId, productId, ...favoriteData } = input
-    await this.errorsService.ErrorIdNullError(accountId, productId)
+    await this.errorsService.ErrorIdNullError(accountId)
+    await this.errorsService.ErrorIdNullError(productId)
     await this.IsProductInFavorite(accountId, productId)
     const object = new Favorite(favoriteData)
     object.account = Promise.resolve({ id: accountId } as Account)

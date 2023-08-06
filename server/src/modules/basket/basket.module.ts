@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { Basket } from '../../../db/entities'
 import { BasketResolver } from './basket.resolver'
 import { ErrorsService } from '../../common/errors.service'
-import { FunctionsService } from '../../common/functions.service'
 
 @Module({
   imports: [
@@ -17,7 +16,6 @@ import { FunctionsService } from '../../common/functions.service'
     BasketService,
     BasketResolver,
     ErrorsService,
-    FunctionsService
   ],
 })
 

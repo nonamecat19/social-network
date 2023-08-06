@@ -6,7 +6,6 @@ import { BasketEditInput } from '../../graphql-input/basket-edit.input'
 import { BasketAddInput } from '../../graphql-input/basket-add.input'
 import { BasketEntity } from '../../types/basket.types'
 import { ErrorsService } from '../../common/errors.service'
-import { FunctionsService } from '../../common/functions.service'
 
 @Injectable()
 export class BasketService {
@@ -14,7 +13,6 @@ export class BasketService {
     @InjectRepository(Basket)
     private readonly basketRepository: Repository<Basket>,
     private readonly errorsService: ErrorsService,
-    private readonly functionsService: FunctionsService,
   ) {
   }
 
@@ -34,12 +32,13 @@ export class BasketService {
 
   async create(input: BasketAddInput) {
     const { accountId, productId, ...basketData } = input
-    await this.errorsService.ErrorIdNullError(accountId, productId)
+    await this.errorsService.ErrorIdNullError(accountId)
+    await this.errorsService.ErrorIdNullError(productId)
     await this.IsProductInBasket(accountId, productId)
     const object = new Basket(basketData)
     // object.account = Promise.resolve({ id: accountId } as Account)
-    object.account = this.functionsService.getObjectById<Account>(accountId)
-    object.product =  this.functionsService.getObjectById<Product>(productId)
+    object.account = Promise.resolve({ id: accountId } as Account)
+    object.product = Promise.resolve({ id: productId } as Product)
 
     try {
       return await this.basketRepository.save(object)

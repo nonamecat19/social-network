@@ -11,8 +11,8 @@ export class ErrorsService {
     }
   }
 
-  async ErrorIdNullError(id_1, id_2) {
-    if (!id_1 || !id_2) { //хоча в цьому методі перевірки не потрібні, бо сюди має 100% приходити числа, проте це чомусь не так
+  async ErrorIdNullError(id_1) {
+    if (!id_1) { //хоча в цьому методі перевірки не потрібні, бо сюди має 100% приходити числа, проте це чомусь не так
       console.log(ErrorDescriptionsArray[ErrorCodes.IdNullError])
       throw new BadRequestException(ErrorCodes.IdNullError) //id були null
     }

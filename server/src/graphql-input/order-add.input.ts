@@ -1,5 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql'
-import { Basket } from '../../db/entities'
+import { Field, InputType, Int } from '@nestjs/graphql'
 
 @InputType()
 export class OrderAddInput {
@@ -19,7 +18,9 @@ export class OrderAddInput {
   // @Field()
   // status:
 
-  @Field()
-  baskets: Promise<Basket[]>
+  @Field(() => Int, { nullable: true })
+  basketId: number
 
+  // @Field(() => Int, { nullable: true })
+  // orderId: number
 }
