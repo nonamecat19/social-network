@@ -4,7 +4,8 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn } from 'typeorm'
+  UpdateDateColumn,
+} from 'typeorm'
 import { Account } from './account.entity'
 import { Product } from './product.entity'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
@@ -12,31 +13,31 @@ import { Field, Int, ObjectType } from '@nestjs/graphql'
 @Entity()
 @ObjectType()
 export class Favorite {
-  constructor(partial?: Partial<Favorite>,) {
+  constructor(partial?: Partial<Favorite>) {
     Object.assign(this, partial)
   }
 
-  @PrimaryGeneratedColumn({name: 'id_favorite'})
+  @PrimaryGeneratedColumn({ name: 'id_favorite' })
   @Field(() => Int)
-  id: number;
+  id: number
 
 
   @ManyToOne(() => Account, (account) => account.favorites)
-  @JoinColumn({name: 'id_account'})
+  @JoinColumn({ name: 'id_account' })
   @Field(() => Account, { nullable: true })
   account: Promise<Account>
 
   @ManyToOne(() => Product, (product) => product.favorites)
-  @JoinColumn({name: 'id_product'})
+  @JoinColumn({ name: 'id_product' })
   @Field(() => Product, { nullable: true })
   product: Promise<Product>
 
 
-  @CreateDateColumn({type: 'timestamp'})
+  @CreateDateColumn({ type: 'timestamp' })
   @Field()
-  createdAt: Date;
+  createdAt: Date
 
-  @UpdateDateColumn({type: 'timestamp'})
+  @UpdateDateColumn({ type: 'timestamp' })
   @Field()
-  updatedAt: Date;
+  updatedAt: Date
 }

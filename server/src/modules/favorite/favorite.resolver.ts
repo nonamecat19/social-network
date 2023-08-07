@@ -5,69 +5,44 @@ import { Favorite } from '../../../db/entities'
 import { FavoriteAddInput } from '../../graphql-input/favorite-add.input'
 import { FavoriteEditInput } from '../../graphql-input/favorite-edit.input'
 import { EntityWithId } from '../../types/delete-id.types'
+import { FavoriteService } from './favorite.service'
 
 @Resolver(() => Favorite)
 export class FavoriteResolver {
   constructor(
     @InjectRepository(Favorite)
     private readonly favoriteRepository: Repository<Favorite>,
+    private readonly favoriteService: FavoriteService,
   ) {
   }
 
   @Query(() => [Favorite])
   public async favorites(): Promise<Favorite[]> {
-    return await this.favoriteRepository.find()
+    return await this.favoriteService.findAll()
   }
 
   @Query(() => Favorite, { description: '---' })
   public async favorite(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<Favorite> {
-    return await this.favoriteRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
+    @Args('id', { type: () => Int }) id: number): Promise<Favorite> {
+    return await this.favoriteService.findOne(id)
   }
 
   @Mutation(() => Favorite, { name: 'favoriteAdd' })
   public async add(
-    @Args('input', { type: () => FavoriteAddInput })
-      input: FavoriteAddInput,
-  ): Promise<Favorite> {
-    return await this.favoriteRepository.save(input)
+    @Args('input', { type: () => FavoriteAddInput }) input: FavoriteAddInput): Promise<Favorite> {
+    return await this.favoriteService.create(input)
   }
 
   @Mutation(() => Favorite, { name: 'favoriteEdit' })
   public async edit(
-    @Args('id', { type: () => Int })
-      id: number,
-    @Args('input', { type: () => FavoriteEditInput })
-      input: FavoriteEditInput,
-  ): Promise<Favorite> {
-    const favorite = await this.favoriteRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    return await this.favoriteRepository.save(
-      new Favorite(Object.assign(favorite, input)),
-    )
+    @Args('id', { type: () => Int }) id: number,
+    @Args('input', { type: () => FavoriteEditInput }) input: FavoriteEditInput): Promise<Favorite> {
+    return await this.favoriteService.update(id, input)
   }
 
   @Mutation(() => EntityWithId, { name: 'favoriteDelete', description: '---' })
   public async delete(
-    @Args('id', { type: () => Int })
-      id: number,
-  ): Promise<EntityWithId> {
-    const favorite = await this.favoriteRepository.findOneOrFail({
-      where: {
-        id,
-      },
-    })
-    await this.favoriteRepository.remove(favorite)
-
-    return new EntityWithId(id)
+    @Args('id', { type: () => Int }) id: number): Promise<EntityWithId> {
+    return await this.favoriteService.remove(id)
   }
 }

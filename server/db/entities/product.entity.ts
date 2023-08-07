@@ -11,7 +11,7 @@ import { Category } from './category.entity'
 import { Producer } from './producer.entity'
 import { Basket } from './basket.entity'
 import { Favorite } from './favorite.entity'
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql'
 
 @Entity()
 @ObjectType()
@@ -27,7 +27,7 @@ export class Product {
   id: number
 
   @Column()
-  @Field({ nullable: true })
+  @Field()
   name: string
 
   @Column({ nullable: true })
@@ -39,7 +39,7 @@ export class Product {
   photo_src: string
 
   @Column()
-  @Field()
+  @Field(() => Float) //
   price: number
 
   @Column()
@@ -48,21 +48,21 @@ export class Product {
 
 
   @ManyToOne(() => Category, (category) => category.products)
-  @JoinColumn({name: 'id_category'})
+  @JoinColumn({ name: 'id_category' })
   @Field(() => Category, { nullable: true })
   category: Promise<Category>
   //| null
 
   @ManyToOne(() => Producer, (producer) => producer.products)
-  @JoinColumn({name: 'id_producer'})
+  @JoinColumn({ name: 'id_producer' })
   @Field(() => Producer, { nullable: true })
   producer: Promise<Producer>
   //| null
 
-  @OneToMany(() => Basket, (basket) => basket.product, {onDelete: 'CASCADE'})
+  @OneToMany(() => Basket, (basket) => basket.product, { onDelete: 'CASCADE' })
   baskets: Basket[]
 
-  @OneToMany(() => Favorite, (favorite) => favorite.product, {onDelete: 'CASCADE'})
+  @OneToMany(() => Favorite, (favorite) => favorite.product, { onDelete: 'CASCADE' })
   favorites: Favorite[]
 
 

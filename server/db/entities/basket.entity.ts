@@ -22,17 +22,17 @@ export class Basket {
 
   @PrimaryGeneratedColumn({ name: 'id_basket' })
   @Field(() => Int)
-  id: number
+  id!: number
 
-  @Column({ default: 1 })
-  @Field()
-  quantity: number
+  @Column()
+  @Field(() => Int, { defaultValue: 1 })
+  quantity!: number
 
 
   @ManyToOne(() => Account, (account) => account.baskets)
   @JoinColumn({ name: 'id_account' })
-  @Field(() => Account, { nullable: true })
-  account: Promise<Account>
+  @Field(() => Account)
+  account!: Promise<Account>
 
   @ManyToOne(() => Product, (product) => product.baskets)
   @JoinColumn({ name: 'id_product' })
@@ -46,9 +46,9 @@ export class Basket {
 
   @CreateDateColumn({ type: 'timestamp' })
   @Field()
-  createdAt: Date
+  createdAt!: Date
 
   @UpdateDateColumn({ type: 'timestamp' })
   @Field()
-  updatedAt: Date
+  updatedAt!: Date
 }

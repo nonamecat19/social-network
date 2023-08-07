@@ -1,50 +1,59 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Repository } from 'typeorm'
 import { Category } from '../../../db/entities'
 import { InjectRepository } from '@nestjs/typeorm'
+import { CategoryAddInput } from '../../graphql-input/category-add.input'
+import { AccountEditInput } from '../../graphql-input/account-edit.input'
+import { EntityWithId } from '../../types/delete-id.types'
+import { ErrorsService } from '../../common/errors.service'
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
-  ) {}
-
-  async create(createCategoryDto: CreateCategoryDto) {
-    const isExist = await this.categoryRepository.findBy({
-      title: createCategoryDto.title
-    })
-
-    if(isExist.length){
-      throw new BadRequestException('This category already exist!')
-    }
-
-    const newCategory = {
-      title: createCategoryDto.title,
-      description: createCategoryDto.description,
-      photo_src: createCategoryDto.photo_src
-    }
-
-    return await this.categoryRepository.save(newCategory)
+    private readonly categoryRepository: Repository<Category>,
+    private readonly errorsService: ErrorsService,
+  ) {
   }
 
   async findAll() {
-    return await this.categoryRepository.find();
+    return await this.categoryRepository.find()
   }
 
   async findOne(id: number) {
-    return await this.categoryRepository.find(
-      //where{}
-    );
+    let object = await this.categoryRepository.findOne({
+      where: {
+        id,
+      },
+    })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async create(input: CategoryAddInput) {
+    await this.IsCategoryExist(input)
+    return await this.categoryRepository.save(input)
+  }
+
+  async update(id: number, input: AccountEditInput) {
+    const object = await this.findOne(id)
+    return await this.categoryRepository.save(
+      new Category(Object.assign(object, input)),
+    )
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} category`;
+    const object = await this.findOne(id)
+    await this.categoryRepository.remove(object)
+    return new EntityWithId(id)
+  }
+
+  async IsCategoryExist(input) {
+    const isExist = await this.categoryRepository.findBy({
+      title: input.title,
+    })
+    if (isExist.length) {
+      throw new BadRequestException('This category already exist!')
+    }
   }
 }

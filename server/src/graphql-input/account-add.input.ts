@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql'
 import { Group } from '../types/account.types'
 
 @InputType()
-export class AccountAddInput{
+export class AccountAddInput {
 
   @Field()
   name: string
@@ -28,7 +28,7 @@ export class AccountAddInput{
   @Field({ nullable: true })
   photo_src: string
 
-  @Field({ nullable: true })
-  group: Group
+  // @Field({ nullable: true })
+  // group: Group
 
 }

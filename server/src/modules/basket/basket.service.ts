@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBasketDto } from './dto/create-basket.dto';
-import { UpdateBasketDto } from './dto/update-basket.dto';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Account, Basket, Product } from '../../../db/entities'
+import { Repository } from 'typeorm'
+import { BasketEditInput } from '../../graphql-input/basket-edit.input'
+import { BasketAddInput } from '../../graphql-input/basket-add.input'
+import { BasketEntity } from '../../types/basket.types'
+import { ErrorsService } from '../../common/errors.service'
 
 @Injectable()
 export class BasketService {
-  create(createBasketDto: CreateBasketDto) {
-    return 'This action adds a new basket';
+  constructor(
+    @InjectRepository(Basket)
+    private readonly basketRepository: Repository<Basket>,
+    private readonly errorsService: ErrorsService,
+  ) {
   }
 
-  findAll() {
-    return `This action returns all basket`;
+  async findAll() {
+    return await this.basketRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} basket`;
+  async findOne(id: number) {
+    let object = await this.basketRepository.findOne({
+      where: {
+        id,
+      },
+    })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
   }
 
-  update(id: number, updateBasketDto: UpdateBasketDto) {
-    return `This action updates a #${id} basket`;
+  async create(input: BasketAddInput) {
+    const { accountId, productId, ...basketData } = input
+    await this.errorsService.ErrorIdNullError(accountId)
+    await this.errorsService.ErrorIdNullError(productId)
+    await this.IsProductInBasket(accountId, productId)
+    const object = new Basket(basketData)
+    // object.account = Promise.resolve({ id: accountId } as Account)
+    object.account = Promise.resolve({ id: accountId } as Account)
+    object.product = Promise.resolve({ id: productId } as Product)
+
+    try {
+      return await this.basketRepository.save(object)
+    } catch (e) {
+      await this.errorsService.ErrorRelationshipError()
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} basket`;
+  async update(id: number, input: BasketEditInput) {
+    const object = await this.findOne(id)
+    return await this.basketRepository.save(
+      new Basket(Object.assign(object, input)),
+    )
+  }
+
+  async remove(id: number) {
+    const object = await this.findOne(id)
+    await this.basketRepository.remove(object)
+    return new BasketEntity(id)
+  }
+
+  async IsProductInBasket(accountId: number, productId: number) {
+    const object = await this.basketRepository.findOne({
+      where: {
+        account: { id: accountId },
+        product: { id: productId },
+      },
+    })
+    await this.errorsService.ErrorDataAlreadyExists(object)
   }
 }
