@@ -19,7 +19,7 @@ export class OrderService {
   ) {
   }
 
-  async findAll() {
+  async findAll(basket: Basket) {
     return await this.orderRepository.find()
   }
 
@@ -54,7 +54,7 @@ export class OrderService {
   //   }
   // }
 
-  async create(input: OrderAddInput): Promise<Order> {
+  async create(basket: Basket ,input: OrderAddInput): Promise<Order> {
     const { basketId, ...orderData } = input
     // const order = new Order();
     // const savedOrder = await this.orderRepository.save(order);
@@ -72,18 +72,24 @@ export class OrderService {
     //
     // return savedOrder;
 
+    // let obj1 = new Basket()
+    // let obj1 = await this.orderRepository.findOne({
+    //   where: {
+    //     id,
+    //   },
+    // })
+
     let obj = new Order()
     try {
-      obj = await this.orderRepository.save(orderData)
+      obj = await this.orderRepository.save(input)
     } catch (e) {
       await this.errorsService.ErrorRelationshipError()
     }
 
-
     console.log(obj.id)
     //замовлення одне й те саме, а потрібно передати id_account
     // і додавати в замовлення всі товари які на даний момент в користувача в корзині
-    await this.orderBasketService.create(obj.id, basketId)
+    ////await this.orderBasketService.create(obj.id, basketId)
 
     // const object = new Order();
     // object.baskets = Promise.resolve({ id: obj.id } as Order)

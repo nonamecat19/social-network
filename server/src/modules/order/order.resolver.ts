@@ -1,6 +1,6 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Int, Mutation, Parent, Query, Resolver } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Order } from '../../../db/entities'
+import { Basket, Order } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { OrderAddInput } from '../../graphql-input/order-add.input'
 import { OrderEditInput } from '../../graphql-input/order-edit.input'
@@ -17,8 +17,10 @@ export class OrderResolver {
   }
 
   @Query(() => [Order])
-  public async allOrders(): Promise<Order[]> {
-    return await this.orderService.findAll()
+  public async allOrders(
+    @Parent() basket: Basket, //
+  ): Promise<Order[]> {
+    return await this.orderService.findAll(basket)
   }
 
   @Query(() => Order, { description: '---' })
@@ -29,14 +31,17 @@ export class OrderResolver {
 
   @Mutation(() => Order, { name: 'orderAdd' })
   public async add(
-    @Args('input', { type: () => OrderAddInput }) input: OrderAddInput): Promise<Order> {
-    return await this.orderService.create(input)
+    @Parent() basket: Basket, //
+    @Args('input', { type: () => OrderAddInput })
+      input: OrderAddInput): Promise<Order> {
+    return await this.orderService.create(basket, input)
   }
 
   @Mutation(() => Order, { name: 'orderEdit' })
   public async edit(
     @Args('id', { type: () => Int }) id: number,
-    @Args('input', { type: () => OrderEditInput }) input: OrderEditInput): Promise<Order> {
+    @Args('input', { type: () => OrderEditInput })
+      input: OrderEditInput): Promise<Order> {
     return await this.orderService.update(id, input)
   }
 
