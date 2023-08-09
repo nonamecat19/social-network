@@ -4,13 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
-  ManyToOne,
+  ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import { Account } from './account.entity'
 import { Product } from './product.entity'
-import { Order } from './order.entity'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 
 @Entity()
@@ -39,10 +38,9 @@ export class Basket {
   @Field(() => Product, { nullable: true })
   product: Promise<Product>
 
-  @ManyToMany(() => Order, (order) => order.baskets)
-  @Field(() => [Order], { nullable: true })
-  orders: Promise<Order[]>
-
+  // @ManyToMany(() => Order, (order) => order.baskets)
+  // @Field(() => [Order], { nullable: true })
+  // orders: Promise<Order[]>
 
   @CreateDateColumn({ type: 'timestamp' })
   @Field()

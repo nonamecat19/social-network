@@ -10,6 +10,8 @@ import { Basket } from './basket.entity'
 import { Favorite } from './favorite.entity'
 import { Group } from '../../src/types/account.types'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { OrderRecord } from './order-record.entity'
+import { Order } from './order.entity'
 
 @Entity()
 @ObjectType()
@@ -74,6 +76,9 @@ export class Account {
   @Field(() => [Favorite], { nullable: true })
   favorites: Promise<Favorite[]>
 
+  @OneToMany(() => Order, (order) => order.account, { onDelete: 'CASCADE' })
+  @Field(() => [Order], { nullable: true })
+  order: Order[]
 
   @CreateDateColumn({ type: 'timestamp' }) // @FilterableField(() => GraphQLISODateTime)
   @Field()

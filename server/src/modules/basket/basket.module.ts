@@ -17,6 +17,9 @@ import { ErrorsService } from '../../common/errors.service'
     BasketResolver,
     ErrorsService,
   ],
+  exports: [
+    BasketService
+  ]
 })
 
 export class BasketModule {

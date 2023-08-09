@@ -12,6 +12,7 @@ import { Producer } from './producer.entity'
 import { Basket } from './basket.entity'
 import { Favorite } from './favorite.entity'
 import { Field, Float, Int, ObjectType } from '@nestjs/graphql'
+import { OrderRecord } from './order-record.entity'
 
 @Entity()
 @ObjectType()
@@ -65,6 +66,9 @@ export class Product {
   @OneToMany(() => Favorite, (favorite) => favorite.product, { onDelete: 'CASCADE' })
   favorites: Favorite[]
 
+  @OneToMany(() => OrderRecord, (orderRecord) => orderRecord.product, { onDelete: 'CASCADE' })
+  @Field(() => [OrderRecord], { nullable: true })
+  order_records: OrderRecord[]
 
   @CreateDateColumn({ type: 'timestamp' })
   @Field()

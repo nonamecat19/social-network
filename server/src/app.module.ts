@@ -15,8 +15,6 @@ import { ProducerModule } from './modules/producer/producer.module'
 import { ProductModule } from './modules/product/product.module'
 import { AuthModule } from './auth/auth.module'
 import dbConfig from './common/configs/postgres.config'
-import { Order_baskets_basket } from '../db/entities/order_baskets_basket.entity'
-import { OrderBasketModule } from './modules/OrderBasket/orderBasket.module'
 
 @Module({
   imports: [
@@ -36,7 +34,6 @@ import { OrderBasketModule } from './modules/OrderBasket/orderBasket.module'
     ProducerModule,
     ProductModule,
     AuthModule,
-    OrderBasketModule,
   ],
   controllers: [AppController],
   providers: [AppService],

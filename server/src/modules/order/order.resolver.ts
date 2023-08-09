@@ -17,10 +17,9 @@ export class OrderResolver {
   }
 
   @Query(() => [Order])
-  public async allOrders(
-    @Parent() basket: Basket, //
+  public async orders(
   ): Promise<Order[]> {
-    return await this.orderService.findAll(basket)
+    return await this.orderService.findAll()
   }
 
   @Query(() => Order, { description: '---' })
@@ -31,10 +30,9 @@ export class OrderResolver {
 
   @Mutation(() => Order, { name: 'orderAdd' })
   public async add(
-    @Parent() basket: Basket, //
     @Args('input', { type: () => OrderAddInput })
       input: OrderAddInput): Promise<Order> {
-    return await this.orderService.create(basket, input)
+    return await this.orderService.create(input)
   }
 
   @Mutation(() => Order, { name: 'orderEdit' })
