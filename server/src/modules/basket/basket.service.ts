@@ -69,7 +69,7 @@ export class BasketService {
     return new BasketEntity(id)
   }
 
-  async removeBaskets(accountId: number) {
+  async clearBasket(accountId: number) {
     const object = await this.basketRepository.find({
       where: {
         account: { id: accountId }

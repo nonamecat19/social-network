@@ -32,12 +32,17 @@ export class OrderRecordService {
     return object
   }
 
-  async create(orderId: number, accountId: number) {
-
-    // const { accountId, ...orderData } = input
+  async totalPriceCounter(accountId: number) {
     const baskets = await this.basketService.findAllBaskets(accountId)
-    // const createdOrders: OrderRecord[] = [];
-    console.log(baskets) //
+    let sum = 0
+    for (const basket of baskets) {
+      sum += basket.product ? (await basket.product).price : null
+    }
+    return sum
+  }
+
+  async create(orderId: number, accountId: number) {
+    const baskets = await this.basketService.findAllBaskets(accountId)
     for (const basket of baskets) {
       const productId = basket.product ? (await basket.product).id : null
       const orderRecord = new OrderRecord({
@@ -45,17 +50,15 @@ export class OrderRecordService {
         product: Promise.resolve({ id: productId } as Product),
         order: Promise.resolve({ id: orderId } as Order),
       })
-
       try {
         const savedOrderRecord = await this.orderRepository.save(orderRecord)
         console.log(savedOrderRecord.id) //
-        // createdOrders.push(savedOrderRecord);
       } catch (e) {
         await this.errorsService.ErrorRelationshipError()
       }
     }
-    //await this.basketService.removeBaskets(accountId)
-    return //(createdOrders)
+    //await this.basketService.clearBasket(accountId)
+    return
   }
 
   async update(id: number, input: OrderEditInput) {

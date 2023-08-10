@@ -36,9 +36,11 @@ export class OrderService {
 
   async create(input: OrderAddInput) {
     const { accountId, ...orderData } = input
+
     const order = new Order({
       ...orderData,
-      account: Promise.resolve({ id: accountId } as Account)
+      account: Promise.resolve({ id: accountId } as Account),
+      total_prise: await this.orderRecordService.totalPriceCounter(accountId),
     })
 
     let savedOrder

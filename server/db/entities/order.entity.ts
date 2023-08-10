@@ -54,7 +54,7 @@ export class Order {
 
   @Column({ nullable: true })
   @Field({ nullable: true })
-  sum: number
+  total_prise: number
 
   @ManyToOne(() => Account, (account) => account.order, { nullable: true })
   @JoinColumn({ name: 'id_account' })
