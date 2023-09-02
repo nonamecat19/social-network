@@ -1,15 +1,18 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, JoinColumn,
   JoinTable,
-  ManyToMany,
+  ManyToMany, ManyToOne, OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
 import { Basket } from './basket.entity'
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { Status } from '../../src/types/order.types'
+import { Account } from './account.entity'
+import { Product } from './product.entity'
+import { OrderRecord } from './order-record.entity'
 
 @Entity()
 @ObjectType()
@@ -49,12 +52,18 @@ export class Order {
   @Field(() => Status, { nullable: true })
   status: Status
 
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  total_prise: number
 
-  @ManyToMany(() => Basket)
-  @JoinTable()
-  @Field(() => [Basket], { nullable: true })
-  baskets: Promise<Basket[]>
+  @ManyToOne(() => Account, (account) => account.order, { nullable: true })
+  @JoinColumn({ name: 'id_account' })
+  @Field(() => Account, { nullable: true })
+  account: Promise<Account>
 
+  @OneToMany(() => OrderRecord, (orderRecord) => orderRecord.order, { onDelete: 'SET NULL' })
+  @Field(() => [OrderRecord], { nullable: true })
+  order_records: Promise<OrderRecord[]>
 
   @CreateDateColumn({ type: 'timestamp' })
   @Field()

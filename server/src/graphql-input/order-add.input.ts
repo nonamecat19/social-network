@@ -19,7 +19,7 @@ export class OrderAddInput {
   // status:
 
   @Field(() => Int, { nullable: true })
-  basketId: number
+  accountId: number
 
   // @Field(() => Int, { nullable: true })
   // orderId: number

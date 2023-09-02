@@ -1,21 +1,19 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Account, Basket, Order, Product } from '../../../db/entities'
+import { Account, Basket, Order, OrderRecord, Product } from '../../../db/entities'
 import { Repository } from 'typeorm'
 import { EntityWithId } from '../../types/delete-id.types'
 import { OrderAddInput } from '../../graphql-input/order-add.input'
 import { OrderEditInput } from '../../graphql-input/order-edit.input'
 import { ErrorsService } from '../../common/errors.service'
 import { BasketService } from '../basket/basket.service'
-import { OrderRecordService } from '../orderRecord/orderRecord.service'
 
 @Injectable()
-export class OrderService {
+export class OrderRecordService {
   constructor(
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
+    @InjectRepository(OrderRecord)
+    private readonly orderRepository: Repository<OrderRecord>,
     private readonly basketService: BasketService,
-    private readonly orderRecordService: OrderRecordService,
     private readonly errorsService: ErrorsService,
   ) {
   }
@@ -34,26 +32,33 @@ export class OrderService {
     return object
   }
 
-  async create(input: OrderAddInput) {
-    const { accountId, ...orderData } = input
-
-    const order = new Order({
-      ...orderData,
-      account: Promise.resolve({ id: accountId } as Account),
-      total_prise: await this.orderRecordService.totalPriceCounter(accountId),
-    })
-
-    let savedOrder
-    try {
-      savedOrder = await this.orderRepository.save(order)
-      console.log(savedOrder.id) //
-    } catch (e) {
-      await this.errorsService.ErrorRelationshipError()
+  async totalPriceCounter(accountId: number) {
+    const baskets = await this.basketService.findAllBaskets(accountId)
+    let sum = 0
+    for (const basket of baskets) {
+      sum += basket.product ? (await basket.product).price : null
     }
+    return sum
+  }
 
-    await this.orderRecordService.create(savedOrder.id, accountId)
-
-    return (order)
+  async create(orderId: number, accountId: number) {
+    const baskets = await this.basketService.findAllBaskets(accountId)
+    for (const basket of baskets) {
+      const productId = basket.product ? (await basket.product).id : null
+      const orderRecord = new OrderRecord({
+        quantity: basket.quantity,
+        product: Promise.resolve({ id: productId } as Product),
+        order: Promise.resolve({ id: orderId } as Order),
+      })
+      try {
+        const savedOrderRecord = await this.orderRepository.save(orderRecord)
+        console.log(savedOrderRecord.id) //
+      } catch (e) {
+        await this.errorsService.ErrorRelationshipError()
+      }
+    }
+    //await this.basketService.clearBasket(accountId)
+    return
   }
 
   async update(id: number, input: OrderEditInput) {

@@ -20,6 +20,16 @@ export class BasketService {
     return await this.basketRepository.find()
   }
 
+  async findAllBaskets(accountId: number) {
+    let object = await this.basketRepository.find({
+      where: {
+        account: { id: accountId }
+      },
+    })
+    await this.errorsService.ErrorDataNotFound(object)
+    return object
+  }
+
   async findOne(id: number) {
     let object = await this.basketRepository.findOne({
       where: {
@@ -36,7 +46,6 @@ export class BasketService {
     await this.errorsService.ErrorIdNullError(productId)
     await this.IsProductInBasket(accountId, productId)
     const object = new Basket(basketData)
-    // object.account = Promise.resolve({ id: accountId } as Account)
     object.account = Promise.resolve({ id: accountId } as Account)
     object.product = Promise.resolve({ id: productId } as Product)
 
@@ -58,6 +67,16 @@ export class BasketService {
     const object = await this.findOne(id)
     await this.basketRepository.remove(object)
     return new BasketEntity(id)
+  }
+
+  async clearBasket(accountId: number) {
+    const object = await this.basketRepository.find({
+      where: {
+        account: { id: accountId }
+      },
+    })
+    await this.basketRepository.remove(object)
+      //return object
   }
 
   async IsProductInBasket(accountId: number, productId: number) {

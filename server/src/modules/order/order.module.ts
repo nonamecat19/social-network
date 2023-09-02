@@ -2,20 +2,21 @@ import { Module } from '@nestjs/common'
 import { OrderService } from './order.service'
 import { OrderResolver } from './order.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Order } from '../../../db/entities'
+import { Basket, Order, OrderRecord } from '../../../db/entities'
 import { ErrorsService } from '../../common/errors.service'
-import { Order_baskets_basket } from '../../../db/entities'
-import { OrderBasketService } from '../OrderBasket/orderBasket.service'
+import { BasketService } from '../basket/basket.service'
+import { OrderRecordService } from '../orderRecord/orderRecord.service'
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, Order_baskets_basket]),
+    TypeOrmModule.forFeature([Order, OrderRecord, Basket]),
   ],
   providers: [
     OrderService,
     OrderResolver,
     ErrorsService,
-    OrderBasketService,
+    BasketService,
+    OrderRecordService
   ],
 })
 
