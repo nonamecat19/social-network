@@ -1,0 +1,272 @@
+# This file was generated. Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Account {
+    address: String
+    baskets: [Basket!]
+    contacts: String
+    createdAt: DateTime!
+    favorites: [Favorite!]
+    group: Group!
+    id: Int!
+    login: String!
+    name: String!
+    password: String
+    patronymic: String!
+    photo_src: String
+    surname: String!
+    updateAt: DateTime!
+}
+
+type Basket {
+    account: Account!
+    category: Account!
+    createdAt: DateTime!
+    id: Int!
+    orders: [Order!]
+    producer: Product!
+    product: Product
+    quantity: Int!
+    updatedAt: DateTime!
+}
+
+type BasketEntity {
+    id: Int
+}
+
+type Category {
+    createdAt: DateTime!
+    description: String
+    id: Int!
+    photo_src: String
+    products: [Product!]
+    title: String!
+    updatedAt: DateTime!
+}
+
+type EntityWithId {
+    id: Int!
+}
+
+type Favorite {
+    account: Account
+    createdAt: DateTime!
+    id: Int!
+    product: Product
+    updatedAt: DateTime!
+}
+
+type Mutation {
+    accountAdd(input: AccountAddInput!): Account!
+    "---"
+    accountDelete(id: Int!): EntityWithId!
+    accountEdit(id: Int!, input: AccountEditInput!): Account!
+    basketAdd(input: BasketAddInput!): Basket!
+    "---"
+    basketDelete(id: Int!): BasketEntity!
+    basketEdit(id: Int!, input: BasketEditInput!): Basket!
+    categoryAdd(input: CategoryAddInput!): Category!
+    "---"
+    categoryDelete(id: Int!): EntityWithId!
+    categoryEdit(id: Int!, input: CategoryEditInput!): Category!
+    favoriteAdd(input: FavoriteAddInput!): Favorite!
+    "---"
+    favoriteDelete(id: Int!): EntityWithId!
+    favoriteEdit(id: Int!, input: FavoriteEditInput!): Favorite!
+    orderAdd(input: OrderAddInput!): Order!
+    "---"
+    orderDelete(id: Int!): EntityWithId!
+    orderEdit(id: Int!, input: OrderEditInput!): Order!
+    producerAdd(input: ProducerAddInput!): Producer!
+    "---"
+    producerDelete(id: Int!): EntityWithId!
+    producerEdit(id: Int!, input: ProducerEditInput!): Producer!
+    productAdd(input: ProductAddInput!): Product!
+    "---"
+    productDelete(id: Int!): EntityWithId!
+    productEdit(id: Int!, input: ProductEditInput!): Product!
+}
+
+type Order {
+    baskets: [Basket!]
+    comment: String
+    createdAt: DateTime!
+    delivery_method: String!
+    id: Int!
+    name: String!
+    payment_method: String!
+    status: Status
+    updatedAt: DateTime!
+}
+
+type Producer {
+    createdAt: DateTime!
+    description: String
+    id: Int!
+    name: String!
+    photo_src: String
+    products: [Product!]
+    updatedAt: DateTime!
+}
+
+type Product {
+    category: Category
+    count: Float!
+    createdAt: DateTime!
+    description: String
+    id: Int!
+    name: String!
+    photo_src: String
+    price: Float!
+    producer: Producer
+    updatedAt: DateTime!
+}
+
+type Query {
+    "---"
+    account(id: Int!): Account!
+    accounts: [Account!]!
+    allOrders: [Order!]!
+    "---"
+    basket(id: Int!): Basket!
+    baskets: [Basket!]!
+    categories: [Category!]!
+    "---"
+    category(id: Int!): Category!
+    "---"
+    favorite(id: Int!): Favorite!
+    favorites: [Favorite!]!
+    "---"
+    order(id: Int!): Order!
+    "---"
+    producer(id: Int!): Producer!
+    producers: [Producer!]!
+    "---"
+    product(id: Int!): Product!
+    products: [Product!]!
+}
+
+enum Group {
+    VIP
+    frequentBuyer
+    newBuyer
+    rareBuyer
+}
+
+enum Status {
+    accepted
+    notReviewed
+    rejected
+    reviewed
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+input AccountAddInput {
+    address: String
+    contacts: String
+    login: String!
+    name: String!
+    password: String
+    patronymic: String!
+    photo_src: String
+    surname: String!
+}
+
+input AccountEditInput {
+    address: String
+    contacts: String
+    login: String
+    name: String
+    password: String
+    patronymic: String
+    photo_src: String
+    surname: String
+}
+
+input BasketAddInput {
+    accountId: Int!
+    productId: Int!
+    quantity: Int! = 1
+}
+
+input BasketEditInput {
+    accountId: Int
+    productId: Int
+    quantity: Int = 1
+}
+
+input CategoryAddInput {
+    description: String
+    photo_src: String
+    title: String!
+}
+
+input CategoryEditInput {
+    description: String
+    photo_src: String
+    title: String
+}
+
+input FavoriteAddInput {
+    accountId: Int
+    productId: Int
+}
+
+input FavoriteEditInput {
+    accountId: Int
+    productId: Int
+}
+
+input OrderAddInput {
+    basketId: Int
+    comment: String
+    delivery_method: String!
+    name: String!
+    payment_method: String!
+}
+
+input OrderEditInput {
+    basketId: Int
+    comment: String
+    delivery_method: String
+    name: String
+    payment_method: String
+}
+
+input ProducerAddInput {
+    description: String
+    name: String!
+    photo_src: String
+}
+
+input ProducerEditInput {
+    description: String
+    name: String
+    photo_src: String
+}
+
+input ProductAddInput {
+    categoryId: Int
+    count: Float!
+    description: String
+    name: String!
+    photo_src: String
+    price: Float!
+    producerId: Int
+}
+
+input ProductEditInput {
+    categoryId: Int
+    count: Float
+    description: String
+    name: String
+    photo_src: String
+    price: Float
+    producerId: Int
+}
